@@ -386,19 +386,33 @@ def load_ledger_ids(
                     f"{label}: missing required column {group.ledger_id_column!r}"
                 )
                 return ids
+            configured_references = (
+                LEDGER_REFERENCE_COLUMNS.get(group.name, {})
+                if references is not None
+                else {}
+            )
+            missing_reference_columns = [
+                column for column in configured_references if column not in fieldnames
+            ]
             expected_field_count = len(fieldnames)
             id_column_index = fieldnames.index(group.ledger_id_column)
             reference_columns = [
                 (fieldnames.index(column), column, target_group)
-                for column, target_group in LEDGER_REFERENCE_COLUMNS.get(
-                    group.name, {}
-                ).items()
+                for column, target_group in configured_references.items()
                 if column in fieldnames
             ]
             for row in reader:
                 line_number = reader.line_num
                 if not row:
                     continue
+                if missing_reference_columns:
+                    rendered = ", ".join(
+                        repr(column) for column in missing_reference_columns
+                    )
+                    errors.append(
+                        f"{label}: missing required reference column(s): {rendered}"
+                    )
+                    return ids
                 if len(row) != expected_field_count:
                     errors.append(
                         f"{label}:{line_number}: malformed CSV row has "
