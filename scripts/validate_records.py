@@ -531,6 +531,58 @@ def validate_references(
     return errors
 
 
+def validate_parent_family_cycles(
+    records: Sequence[LoadedRecord], root: Path
+) -> list[str]:
+    """Reject cycles among artifact-ID ``parent_family`` references."""
+
+    artifact_pattern = GROUP_BY_NAME["artifact"].id_pattern
+    parents: dict[str, str] = {}
+    paths: dict[str, Path] = {}
+    for record in records:
+        if record.group != "artifact":
+            continue
+        artifact_id = record.document.get("id")
+        parent_family = record.document.get("parent_family")
+        if not (
+            isinstance(artifact_id, str)
+            and artifact_pattern.fullmatch(artifact_id)
+            and isinstance(parent_family, str)
+            and artifact_pattern.fullmatch(parent_family)
+        ):
+            continue
+        # Duplicate IDs are reported separately. Keep the first canonical path
+        # so cycle diagnostics remain stable even in an already-invalid corpus.
+        parents.setdefault(artifact_id, parent_family)
+        paths.setdefault(artifact_id, record.path)
+
+    errors: list[str] = []
+    completed: set[str] = set()
+    for start in sorted(parents):
+        if start in completed:
+            continue
+        trail: list[str] = []
+        positions: dict[str, int] = {}
+        current = start
+        while current in parents and current not in completed:
+            if current in positions:
+                cycle = trail[positions[current] :]
+                anchor = min(cycle)
+                anchor_index = cycle.index(anchor)
+                cycle = cycle[anchor_index:] + cycle[:anchor_index]
+                rendered_cycle = " -> ".join([*cycle, anchor])
+                errors.append(
+                    f"{display_path(paths[anchor], root)}:$.parent_family: "
+                    f"parent_family cycle detected: {rendered_cycle}"
+                )
+                break
+            positions[current] = len(trail)
+            trail.append(current)
+            current = parents[current]
+        completed.update(trail)
+    return errors
+
+
 def validate_ledger_references(
     references: Sequence[LedgerReference],
     known_ids: Mapping[str, set[str]],
@@ -655,6 +707,7 @@ def validate_repository(root: Path) -> ValidationReport:
         for group in GROUPS
     }
     errors.extend(validate_references(records, known_ids, root))
+    errors.extend(validate_parent_family_cycles(records, root))
     errors.extend(validate_ledger_references(ledger_references, known_ids, root))
     # A registered directory is also visited by the closure scan.  Collapse an
     # identical path failure from those two independent checks into one report.
