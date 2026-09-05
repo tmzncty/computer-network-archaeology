@@ -152,8 +152,8 @@
         "additionalProperties": false,
         "required": ["claim", "locator", "certainty"],
         "properties": {
-          "claim": {"type": "string"},
-          "locator": {"type": "string"},
+          "claim": {"type": "string", "minLength": 1, "pattern": "\\S"},
+          "locator": {"type": "string", "minLength": 1, "pattern": "\\S"},
           "certainty": {"type": "string", "enum": ["confirmed", "probable", "disputed", "unknown"]},
           "artifact_ids": {"type": "array", "items": {"type": "string", "pattern": "^ART-[0-9]{4,}$"}, "uniqueItems": true, "default": []},
           "notes": {"type": ["string", "null"]}
