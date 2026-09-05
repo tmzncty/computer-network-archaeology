@@ -134,9 +134,10 @@
         "medium": {"type": ["string", "null"]},
         "line_service": {"type": ["string", "null"]},
         "nominal_bit_rate_bps": {
+          "description": "Positive nominal bit rate or supported rates in bits per second. Omit this field when the rate is unknown or not applicable.",
           "oneOf": [
-            {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 1}
+            {"type": "integer", "minimum": 1},
+            {"type": "array", "items": {"type": "integer", "minimum": 1}, "minItems": 1}
           ]
         },
         "clocking": {"type": ["string", "null"]},
