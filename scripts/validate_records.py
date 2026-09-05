@@ -3,7 +3,8 @@
 
 The JSON Schemas protect each record in isolation.  This script adds the
 repository-level invariants that JSON Schema cannot express: stable IDs,
-filename/ID agreement, ledger identities, and references between records.
+filename/ID agreement, ledger identities, claim-summary projections, and
+references between records.
 """
 
 from __future__ import annotations
@@ -561,6 +562,41 @@ def validate_references(
     return errors
 
 
+def validate_source_claim_artifact_projection(
+    records: Sequence[LoadedRecord], root: Path
+) -> list[str]:
+    """Require claim-level artifact links to appear in the source summary."""
+
+    errors: list[str] = []
+    artifact_pattern = GROUP_BY_NAME["artifact"].id_pattern
+    for record in records:
+        if record.group != "source":
+            continue
+
+        declared_artifacts = {
+            artifact_id
+            for _, artifact_id in strings(record.document.get("artifact_ids"))
+            if artifact_pattern.fullmatch(artifact_id)
+        }
+        claims = record.document.get("claims_extracted")
+        if not isinstance(claims, list):
+            continue
+        for claim_index, claim in enumerate(claims):
+            if not isinstance(claim, dict):
+                continue
+            for artifact_index, artifact_id in strings(claim.get("artifact_ids")):
+                if (
+                    artifact_pattern.fullmatch(artifact_id)
+                    and artifact_id not in declared_artifacts
+                ):
+                    errors.append(
+                        f"{display_path(record.path, root)}:$.claims_extracted"
+                        f"[{claim_index}].artifact_ids[{artifact_index}]: artifact ID "
+                        f"{artifact_id} is not declared in $.artifact_ids"
+                    )
+    return errors
+
+
 def validate_ledger_references(
     references: Sequence[LedgerReference],
     known_ids: Mapping[str, set[str]],
@@ -685,6 +721,7 @@ def validate_repository(root: Path) -> ValidationReport:
         for group in GROUPS
     }
     errors.extend(validate_references(records, known_ids, root))
+    errors.extend(validate_source_claim_artifact_projection(records, root))
     errors.extend(validate_ledger_references(ledger_references, known_ids, root))
     # A registered directory is also visited by the closure scan.  Collapse an
     # identical path failure from those two independent checks into one report.

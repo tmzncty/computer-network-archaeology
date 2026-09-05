@@ -231,6 +231,8 @@ schema cannot express:
 - IDs in each discovery ledger are well formed and unique;
 - artifact/source references in structured records resolve to either a
   structured record or a discovery-ledger identity;
+- every artifact referenced by an extracted source claim is also declared in
+  that source record's top-level `artifact_ids` summary;
 - non-empty `from_artifact_id` and `to_artifact_id` values in the lineage
   discovery ledger obey the same resolution policy;
 - `source_ref` values in lineage records are checked whenever they contain

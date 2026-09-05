@@ -9,7 +9,7 @@
   "publisher_or_issuer": "DARPA Internet Program / RFC archival corpus",
   "language": ["en"],
   "topics": ["TCP", "reliable transport", "byte stream", "sequence numbers", "flow control", "RFC 9293 ancestry"],
-  "artifact_ids": [],
+  "artifact_ids": ["ART-0154"],
   "access": {"canonical_url": "https://www.rfc-editor.org/info/rfc793/", "archive_urls": [], "catalog_urls": [], "local_mirror": null, "accessed_on": "2026-08-29", "availability": "open"},
   "fixity": {"sha256": null, "byte_size": null, "mime_type": "text/html", "page_count": null, "ocr_status": "not-applicable", "scan_notes": null},
   "rights_status": "rfc-distribution-terms",
