@@ -3,7 +3,8 @@
 
 The JSON Schemas protect each record in isolation.  This script adds the
 repository-level invariants that JSON Schema cannot express: stable IDs,
-filename/ID agreement, ledger identities, and references between records.
+filename/ID agreement, ledger identities, claim-summary projections, and
+references between records.
 """
 
 from __future__ import annotations
@@ -11,6 +12,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 import csv
+from decimal import Decimal, InvalidOperation
 import json
 import re
 import sys
@@ -111,6 +113,33 @@ class StrictJSONError(ValueError):
     """Raised when Python's permissive JSON decoder accepts invalid JSON."""
 
 
+# Match CPython's default integer-string safety ceiling, but enforce it before
+# materializing an exponent-expanded integer so process-wide settings cannot
+# turn a small JSON token such as ``1e100000000`` into a giant allocation.
+_MAX_JSON_INTEGER_DIGITS = 4300
+
+
+def parse_json_number(value: str) -> int | Decimal:
+    """Decode a JSON number exactly while bounding integer materialization."""
+
+    try:
+        exact = Decimal(value)
+    except InvalidOperation as error:
+        raise StrictJSONError("unrepresentable decimal exponent") from error
+
+    if not exact.is_finite():
+        raise StrictJSONError("non-finite number")
+    if exact != exact.to_integral_value():
+        return exact
+
+    integer_digits = 1 if exact.is_zero() else exact.adjusted() + 1
+    if integer_digits > _MAX_JSON_INTEGER_DIGITS:
+        raise StrictJSONError(
+            f"integer exceeds {_MAX_JSON_INTEGER_DIGITS} decimal digits"
+        )
+    return int(exact)
+
+
 def display_path(path: Path, root: Path) -> str:
     try:
         return path.relative_to(root).as_posix()
@@ -202,6 +231,8 @@ def load_json_object(
             path.read_text(encoding="utf-8"),
             object_pairs_hook=reject_duplicate_keys,
             parse_constant=reject_non_finite_number,
+            parse_float=parse_json_number,
+            parse_int=parse_json_number,
         )
     except (OSError, UnicodeError) as error:
         errors.append(f"{label}: cannot read UTF-8 JSON: {error}")
@@ -583,6 +614,41 @@ def validate_parent_family_cycles(
     return errors
 
 
+def validate_source_claim_artifact_projection(
+    records: Sequence[LoadedRecord], root: Path
+) -> list[str]:
+    """Require claim-level artifact links to appear in the source summary."""
+
+    errors: list[str] = []
+    artifact_pattern = GROUP_BY_NAME["artifact"].id_pattern
+    for record in records:
+        if record.group != "source":
+            continue
+
+        declared_artifacts = {
+            artifact_id
+            for _, artifact_id in strings(record.document.get("artifact_ids"))
+            if artifact_pattern.fullmatch(artifact_id)
+        }
+        claims = record.document.get("claims_extracted")
+        if not isinstance(claims, list):
+            continue
+        for claim_index, claim in enumerate(claims):
+            if not isinstance(claim, dict):
+                continue
+            for artifact_index, artifact_id in strings(claim.get("artifact_ids")):
+                if (
+                    artifact_pattern.fullmatch(artifact_id)
+                    and artifact_id not in declared_artifacts
+                ):
+                    errors.append(
+                        f"{display_path(record.path, root)}:$.claims_extracted"
+                        f"[{claim_index}].artifact_ids[{artifact_index}]: artifact ID "
+                        f"{artifact_id} is not declared in $.artifact_ids"
+                    )
+    return errors
+
+
 def validate_ledger_references(
     references: Sequence[LedgerReference],
     known_ids: Mapping[str, set[str]],
@@ -708,6 +774,7 @@ def validate_repository(root: Path) -> ValidationReport:
     }
     errors.extend(validate_references(records, known_ids, root))
     errors.extend(validate_parent_family_cycles(records, root))
+    errors.extend(validate_source_claim_artifact_projection(records, root))
     errors.extend(validate_ledger_references(ledger_references, known_ids, root))
     # A registered directory is also visited by the closure scan.  Collapse an
     # identical path failure from those two independent checks into one report.

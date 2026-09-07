@@ -95,8 +95,8 @@
         "additionalProperties": false,
         "required": ["source_ref", "locator", "supports"],
         "properties": {
-          "source_ref": {"type": "string", "minLength": 1},
-          "locator": {"type": "string", "minLength": 1},
+          "source_ref": {"type": "string", "minLength": 1, "pattern": "\\S"},
+          "locator": {"type": "string", "minLength": 1, "pattern": "\\S"},
           "supports": {"type": "string", "minLength": 1, "pattern": "\\S"},
           "notes": {"type": ["string", "null"]}
         }

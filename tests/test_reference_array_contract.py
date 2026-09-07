@@ -48,7 +48,7 @@ class ReferenceArrayContractTests(unittest.TestCase):
                     "title": "Example source",
                     "research_state": "discovered",
                     "rights_status": "unknown",
-                    "access": {},
+                    "access": {"availability": "unknown"},
                     "claims_extracted": [
                         {
                             "claim": "Example claim",
@@ -89,7 +89,7 @@ class ReferenceArrayContractTests(unittest.TestCase):
             "title": "Example source",
             "research_state": "discovered",
             "rights_status": "unknown",
-            "access": {},
+            "access": {"availability": "unknown"},
             "claims_extracted": [
                 {
                     "claim": "Example claim",
