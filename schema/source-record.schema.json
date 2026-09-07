@@ -92,6 +92,7 @@
     "access": {
       "type": "object",
       "additionalProperties": false,
+      "required": ["availability"],
       "properties": {
         "canonical_url": {"type": ["string", "null"], "format": "uri"},
         "archive_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "default": []},
