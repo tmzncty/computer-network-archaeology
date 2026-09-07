@@ -30,9 +30,10 @@ Recent ranges include:
 - `SRC-0261..0263` — early TCP_INFO snapshot and pacing/delivery-rate field additions;
 - `SRC-0264..0268` — dedicated tcp_metrics cache, timestamp consolidation, Generic Netlink/userspace administration and ssthresh-cache policy;
 - `SRC-0269..0270` — initial veth mainline commit and Linux v2.6.24 released source snapshot;
-- `SRC-0271..0273` — PID-selected netns administration, named/processless `ip netns` introduction, and v2.6.39→v3.0.0 tagged-release boundary.
+- `SRC-0271..0276` are used by parallel research PR #11 and are not yet present in this intermediate rekey commit.
+- `SRC-0277..0279` — PID-selected netns administration, named/processless `ip netns` introduction, and v2.6.39→v3.0.0 tagged-release boundary.
 
-**Next unreserved source ID: `SRC-0274`**, subject to verification.
+**Next unreserved source ID: `SRC-0280`**, subject to merge-time verification.
 
 ### Lineages
 

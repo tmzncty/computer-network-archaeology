@@ -10,9 +10,9 @@ It closes the first **tagged release/source snapshot** boundary, not the Linux k
 
 ## Structured sources
 
-- `SRC-0271` — 2008 iproute2 `IFLA_NET_NS_PID` / `ip link set DEVICE netns PID` commit.
-- `SRC-0272` — 2011 processless named-network-namespace introduction commit.
-- `SRC-0273` — adjacent `v2.6.39` → `v3.0.0` tagged-release/source-tree boundary.
+- `SRC-0277` — 2008 iproute2 `IFLA_NET_NS_PID` / `ip link set DEVICE netns PID` commit.
+- `SRC-0278` — 2011 processless named-network-namespace introduction commit.
+- `SRC-0279` — adjacent `v2.6.39` → `v3.0.0` tagged-release/source-tree boundary.
 
 ## Structured artifact
 
