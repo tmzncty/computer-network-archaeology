@@ -30,7 +30,7 @@ Recent ranges include:
 - `SRC-0261..0263` — early TCP_INFO snapshot and pacing/delivery-rate field additions;
 - `SRC-0264..0268` — dedicated tcp_metrics cache, timestamp consolidation, Generic Netlink/userspace administration and ssthresh-cache policy;
 - `SRC-0269..0270` — initial veth mainline commit and Linux v2.6.24 released source snapshot;
-- `SRC-0271..0276` are used by parallel research PR #11 and are not yet present in this intermediate rekey commit.
+- `SRC-0271..0276` — September 2007 Linux network-namespace core series/status, key mainline anchors, separate clone/unshare path, and the Netlink safety boundary.
 - `SRC-0277..0279` — PID-selected netns administration, named/processless `ip netns` introduction, and v2.6.39→v3.0.0 tagged-release boundary.
 
 **Next unreserved source ID: `SRC-0280`**, subject to merge-time verification.
@@ -44,7 +44,7 @@ Recent ranges include:
 - `LIN-0196..0197` — TCP_INFO append-style pacing and delivery-rate observability evolution;
 - `LIN-0198..0200` — route-metrics→dedicated tcp_metrics split, `ip tcp_metrics` operational exposure, and TCP_INFO/tcp_metrics state-plane distinction.
 
-**Next unreserved lineage ID: `LIN-0201`**, subject to verification.
+**Next unreserved lineage ID: `LIN-0201`**, subject to merge-time verification.
 
 ## Persistent task authority
 
@@ -56,6 +56,7 @@ Use `docs/methodology/root-hunting-master-worklist.md`. New work must be added t
 - `data/batches/2026-08-29-netlink-iproute-netns-vrf.md`
 - `data/batches/2026-08-29-tcp-recovery-congestion-observability.md`
 - `data/batches/2026-09-01-veth-upstream-provenance.md`
+- `data/batches/2026-09-05-linux-netns-core-merge-series.md`
 - `data/batches/2026-09-05-iproute2-ip-netns-first-tagged-release.md`
 
 ## Current narrative frontier
@@ -69,6 +70,7 @@ Latest additions:
 - `docs/tcp/linux-tcp-info-field-genealogy.md`
 - `docs/tcp/tcp-metrics-cache-ip-tcp-metrics.md`
 - `docs/routing/linux-veth-upstream-provenance.md`
+- `docs/routing/linux-network-namespace-core-merge-series.md`
 - `docs/routing/iproute2-ip-netns-first-tagged-release.md`
 
 ## Flat-ledger merge checklist

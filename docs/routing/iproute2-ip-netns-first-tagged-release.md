@@ -4,7 +4,7 @@
 
 This note answers one narrow question left open by the network-namespace worklist: **when did the named/processless `ip netns` command family enter iproute2, and what is the first tagged release snapshot that contains it?**
 
-It does not attempt to finish the Linux kernel network-namespace merge series, recover the first independently distributed iproute2 tarball, or establish first real-world deployment.
+This userspace slice does not attempt to finish the Linux kernel network-namespace merge series, recover the first independently distributed iproute2 tarball, or establish first real-world deployment. The [companion core-series study](linux-network-namespace-core-merge-series.md) independently recovers the 2007 series identity/order, contemporary partial-merge status and selected exact mainline anchors; this is not a claim of full protocol-stack completion.
 
 ## Earlier PID-selected namespace administration
 
@@ -90,7 +90,7 @@ The sources do not say that the 2011 design was derived from the 2008 patch. Chr
 
 The parent worklist item is still partial. Remaining:
 
-- recover the exact Linux network-namespace subsystem merge series and component chronology;
+- extend the companion core-series study to a full numbered-patch Torvalds-tree SHA concordance, and trace later protocol-family completion only where needed for operational claims; its series identity/order, contemporary status and selected exact anchors are already recovered;
 - optionally recover pre-mainline veth patch-series provenance;
 - if the stronger distribution claim is needed, recover a contemporary v3.0.0 announcement or original distribution artifact.
 

@@ -44,10 +44,26 @@ This batch does **not** prove:
 - that the 2008 PID interface caused or was the code ancestor of the 2011 named interface;
 - that a userspace release date can be substituted for kernel merge chronology.
 
-## Remaining work in the parent item
+## Remaining work in the parent item (as recorded on 2026-09-05)
 
 - recover the exact kernel network-namespace subsystem merge series and component chronology;
 - optionally recover pre-mainline veth patch-series history;
 - if needed, recover a contemporary v3.0.0 announcement or original distribution artifact to support the stronger public-distribution claim.
+
+## Integration follow-up — 2026-09-08
+
+The [companion core batch](2026-09-05-linux-netns-core-merge-series.md) and [study](../../docs/routing/linux-network-namespace-core-merge-series.md) now recover the September 2007 series identity/order, contemporary partial-merge status and selected exact mainline anchors using `SRC-0271..0276`. The original scope and negative claims above remain valid for this userspace batch. A full numbered-patch Torvalds-tree SHA concordance, later protocol-family completion where needed, optional pre-mainline veth evidence, and first-public-v3.0.0-distribution provenance remain open; combining the studies does not establish maturity, deployment or causal lineage.
+
+### Qualified source-ID migration
+
+Parallel PRs #11 and #12 assigned different sources to the same three IDs. This integration keeps the six kernel identities from #11 at `473dd0e761079f217c6ddee8c9c930095ad50615` and moves only the three userspace identities below. Every old ID in this table is qualified by **original PR #12 head `d60fa218d928adb112d6914b299431223a286c5e`**, not a global alias. Original commits remain unchanged; apart from the root ID and record path, source metadata, extracted claims and access/review dates are preserved.
+
+| Original #12 ID | Integrated ID | Unchanged source identity / canonical location |
+|---|---|---|
+| `SRC-0271` | `SRC-0277` | PID interface, commit [`e2613dc8605e56dbc53890ebbae263f93610bd41`](https://github.com/iproute2/iproute2/commit/e2613dc8605e56dbc53890ebbae263f93610bd41) |
+| `SRC-0272` | `SRC-0278` | Processless/named introduction, commit [`0dc34c7713bb7055378fe5cbc720d63d0db572a1`](https://github.com/iproute2/iproute2/commit/0dc34c7713bb7055378fe5cbc720d63d0db572a1) |
+| `SRC-0273` | `SRC-0279` | Adjacent v2.6.39 → v3.0.0 tagged-tree/ancestry boundary, [`v3.0.0/ip/ipnetns.c`](https://github.com/iproute2/iproute2/blob/v3.0.0/ip/ipnetns.c) |
+
+Companion links are navigation; the original direct primary-source locations and evidence limits remain authoritative.
 
 Research and initial drafting: **GPT-5.6 Sol (OpenAI), September 2026**.
