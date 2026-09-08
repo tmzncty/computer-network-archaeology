@@ -31,9 +31,11 @@ Recent ranges include:
 - `SRC-0264..0268` — dedicated tcp_metrics cache, timestamp consolidation, Generic Netlink/userspace administration and ssthresh-cache policy;
 - `SRC-0269..0270` — initial veth mainline commit and Linux v2.6.24 released source snapshot;
 - `SRC-0271..0276` — September 2007 Linux network-namespace core series/status, key mainline anchors, separate clone/unshare path, and the Netlink safety boundary.
-- `SRC-0277..0279` — PID-selected netns administration, named/processless `ip netns` introduction, and v2.6.39→v3.0.0 tagged-release boundary.
+- `SRC-0286..0288` — PID-selected netns administration, named/processless `ip netns` introduction, and v2.6.39→v3.0.0 tagged-release boundary.
 
-**Next unreserved source ID: `SRC-0280`**, subject to merge-time verification.
+External allocation at the 2026-09-08 08:52 UTC snapshot: main uses `SRC-0277..0279` for RFC 270/271/331; open veth PR #20 uses `SRC-0280..0285`. Those external records are not incorporated into this userspace research branch by the ID migration. Preserve these occupied ranges and reconcile the complete queue when merging.
+
+**Next unreserved source ID: `SRC-0289`**, subject to merge-time verification.
 
 ### Lineages
 
