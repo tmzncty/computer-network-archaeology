@@ -53,7 +53,7 @@
   "claims_extracted": [
     {
       "claim": "The opening says the netlink NEWLINK interface is now in the netdev tree and resubmits veth for inclusion; the description contrasts etun's sysfs interface.",
-      "locator": "Opening beginning 'Now the netlink NEWLINK interface'; description beginning 'The device is designed'",
+      "locator": "Opening beginning 'Since the netlink NEWLINK interface'; description beginning 'Eric recently sent a similar driver'",
       "certainty": "confirmed",
       "artifact_ids": [
         "ART-0249"
