@@ -54,8 +54,8 @@
     }
   ],
   "conflicts": [
-    "Revision drift (open): later Report 1822 revisions incorporate years of ARPANET evolution. Historical reconstruction must distinguish 1969, 1973, 1974, 1975 and 1976 behavior."
+    "Revision drift (partially advanced): RFC 270 now separately records a January 1972 correction to earlier Report 1822 page-25/page-26 text. Full dated Report 1822 revision states for 1969 and later 1970s editions still require separate recovery rather than projection from this 1976 copy."
   ],
-  "notes": "RFC 642, RFC 660, RFC 745 and RFC 3109 are companion evidence for implementation practice and later interpretation.",
-  "last_reviewed": "2026-08-28"
+  "notes": "RFC 270, RFC 271 and RFC 331 are now companion records for the January 1972 documentation-versus-IMPSYS timing distinction and 2514 operational lower bound; RFC 642, RFC 660, RFC 745 and RFC 3109 remain companion evidence for later implementation practice and interpretation.",
+  "last_reviewed": "2026-09-08"
 }
