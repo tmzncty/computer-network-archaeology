@@ -108,6 +108,10 @@ Status vocabulary:
 - [ ] `/etc/protocols` snapshot diffs.
 - [ ] surviving historical values still compiled into kernels/dissectors.
 
+## ARPANET Host–IMP revision archaeology
+
+- [~] dated BBN Report 1822 / IMP-software timing genealogy. **Completed:** RFC 270's 1 January 1972 correction establishes that the relevant Host output-queue/interface timeout was 30 rather than 40 seconds and that the Host was not marked dead under those conditions; RFC 271 separately recovers the real IMPSYS 2513→2514 Host-up second-packet delay change and explicitly says the queue timeout and Host-up delay are not synchronized; RFC 331 confirms IMPSYS 2514 as the current system by 19 April 1972. **Still missing:** full dated Report 1822 revision scans/packets for 1969–1975, page-level pre/post-correction concordance, surviving IMPSYS 2513/2514 code or release media, and exact site-level 2514 cutover chronology.
+
 ## Packet-capture concordance
 
 - [ ] create reproducible present-day capture fixtures for IPv4/TCP/UDP/ICMP/ARP/DNS/SMTP.
