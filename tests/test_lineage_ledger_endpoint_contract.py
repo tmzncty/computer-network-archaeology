@@ -19,7 +19,13 @@ LINEAGE_HEADER = (
 
 
 class LineageLedgerEndpointContractTests(unittest.TestCase):
-    def write_minimal_repository(self, root: Path, lineage_row: str) -> None:
+    def write_minimal_repository(
+        self,
+        root: Path,
+        lineage_row: str,
+        *,
+        lineage_header: str = LINEAGE_HEADER,
+    ) -> None:
         for schema_name in (
             "artifact-record.schema.json",
             "source-record.schema.json",
@@ -63,7 +69,7 @@ class LineageLedgerEndpointContractTests(unittest.TestCase):
             encoding="utf-8",
         )
         (data_directory / "lineage-ledger.csv").write_text(
-            LINEAGE_HEADER + lineage_row,
+            lineage_header + lineage_row,
             encoding="utf-8",
         )
 
@@ -111,6 +117,68 @@ class LineageLedgerEndpointContractTests(unittest.TestCase):
         self.assertEqual({"LIN-9001"}, ledger_ids)
         self.assertEqual([], references)
         self.assertEqual([], errors)
+
+    def test_accepts_an_empty_ledger_without_endpoint_columns(self) -> None:
+        ledger_ids, references, errors = self.load_and_validate("lineage_id\n")
+
+        self.assertEqual(set(), ledger_ids)
+        self.assertEqual([], references)
+        self.assertEqual([], errors)
+
+    def test_rejects_missing_endpoint_id_columns(self) -> None:
+        cases = (
+            (
+                "lineage_id,from_name,to_artifact_id,to_name\n"
+                "LIN-9001,Named origin,,Named destination\n",
+                ("from_artifact_id",),
+            ),
+            (
+                "lineage_id,from_artifact_id,from_name,to_name\n"
+                "LIN-9001,,Named origin,Named destination\n",
+                ("to_artifact_id",),
+            ),
+            (
+                "lineage_id,from_name,to_name\n"
+                "LIN-9001,Named origin,Named destination\n",
+                ("from_artifact_id", "to_artifact_id"),
+            ),
+        )
+
+        for content, missing_columns in cases:
+            with self.subTest(missing_columns=missing_columns):
+                ledger_ids, references, errors = self.load_and_validate(content)
+
+                rendered = ", ".join(repr(column) for column in missing_columns)
+                self.assertEqual(set(), ledger_ids)
+                self.assertEqual([], references)
+                self.assertEqual(
+                    [
+                        "data/lineage-ledger.csv: missing required reference "
+                        f"column(s): {rendered}"
+                    ],
+                    errors,
+                )
+
+    def test_repository_entrypoint_rejects_missing_endpoint_id_columns(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.write_minimal_repository(
+                root,
+                "LIN-9001,Named origin,Named destination\n",
+                lineage_header="lineage_id,from_name,to_name\n",
+            )
+
+            report = validate_repository(root)
+
+        self.assertEqual(
+            [
+                "data/lineage-ledger.csv: missing required reference column(s): "
+                "'from_artifact_id', 'to_artifact_id'"
+            ],
+            report.errors,
+        )
 
     def test_repository_accepts_structured_and_ledger_identity_union(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
