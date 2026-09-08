@@ -35,7 +35,7 @@ Recent ranges include:
 - `SRC-0277..0279` — RFC 270/271/331 evidence separating the January 1972 Report 1822 documentation correction from the IMPSYS 2513→2514 Host-up timing change and confirming a 2514 operational lower bound.
 - `SRC-0280..0285` — June veth proposal/review, July v2.1 patch and v3/v4 covers, and August subsystem-acceptance reply.
 
-**Next unreserved source ID: `SRC-0286`**, subject to merge-time union verification. Open #18 uses `SRC-0277..0279` for different iproute2 sources; those existing collisions with main remain unresolved by this veth supplement.
+**Next unreserved source ID: `SRC-0286`**, subject to merge-time union verification. PR #18's integration, now merged into #12, uses `SRC-0277..0279` for different iproute2 sources; those existing collisions with main remain unresolved by this veth supplement.
 
 ### Lineages
 
