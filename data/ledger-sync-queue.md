@@ -29,8 +29,10 @@ Recent ranges include:
 - `SRC-0261..0263` — early TCP_INFO snapshot and pacing/delivery-rate field additions;
 - `SRC-0264..0268` — dedicated tcp_metrics cache, timestamp consolidation, Generic Netlink/userspace administration and ssthresh-cache policy;
 - `SRC-0269..0270` — initial veth mainline commit and Linux v2.6.24 released source snapshot.
+- `SRC-0271..0279` — reserved for concurrent network-namespace, `ip netns` and other open research contributions; their source identities must be reconciled at merge time, not silently reused here.
+- `SRC-0280..0285` — June veth proposal/review, July v2.1 patch and v3/v4 covers, and August subsystem-acceptance reply.
 
-**Next unreserved source ID: `SRC-0271`**, subject to verification.
+**Next unreserved source ID: `SRC-0286`**, subject to merge-time union verification. The veth supplement does not resolve any pre-existing identity conflict within reserved ranges.
 
 ### Lineages
 

@@ -1,0 +1,76 @@
+{
+  "id": "SRC-0282",
+  "source_type": "correspondence",
+  "title": "[PATCH] Virtual ethernet device (v2.1)",
+  "authors_or_bodies": [
+    "Pavel Emelianov"
+  ],
+  "date": {
+    "value": "2007-07-11",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "Wed, 11 Jul 2007 13:31:15 +0400 = 2007-07-11 09:31:15 UTC; resubmission with complete patch."
+  },
+  "edition_or_revision": "v2.1 complete patch",
+  "identifiers": [
+    {
+      "scheme": "Message-ID",
+      "value": "<4694A363.2070406@openvz.org>"
+    }
+  ],
+  "publisher_or_issuer": "netdev mailing list; preserved by Openwall",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "veth",
+    "virtual Ethernet",
+    "rtnetlink",
+    "public patch review"
+  ],
+  "artifact_ids": [
+    "ART-0249"
+  ],
+  "access": {
+    "canonical_url": "https://lists.openwall.net/netdev/2007/07/11/40",
+    "archive_urls": [],
+    "catalog_urls": [],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": "7abc33c8048d6cb1bf45df1a0f30f80d8e0bccd76d7eb7065751dda736260a8f",
+    "byte_size": 18078,
+    "mime_type": "text/html",
+    "ocr_status": "not-applicable",
+    "scan_notes": "SHA-256 and byte size identify the saved Openwall HTML response accessed 2026-09-08, including archive navigation, not an original RFC822 message. The complete message body was read and checked against the saved HTML. No message body is redistributed in this repository."
+  },
+  "rights_status": "copyrighted-link-only",
+  "redistribution_notes": "Metadata, access link and bounded claim summaries only; public access does not establish permission to redistribute the full correspondence.",
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "The opening says the netlink NEWLINK interface is now in the netdev tree and resubmits veth for inclusion; the description contrasts etun's sysfs interface.",
+      "locator": "Opening beginning 'Now the netlink NEWLINK interface'; description beginning 'The device is designed'",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "This dates the author's resubmission statement, not NEWLINK's exact introduction commit."
+    },
+    {
+      "claim": "The complete v2.1 patch still uses dedicated MAC attributes, a string-valued VETH_INFO_PEER with enum value 2, and alloc_netdev plus manual copying marked 'in sync with rtnl_newlink'.",
+      "locator": "veth_newlink, veth_policy and include/net/veth.h in the complete patch",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "The final SRC-0269 driver instead uses generic IFLA attributes, peer enum value 1 and rtnl_create_link. No complete intermediate patch concordance is claimed."
+    }
+  ],
+  "conflicts": [],
+  "notes": "The quoted NEWLINK opening supports the API spelling; RTM_NRELINK in the description is a contemporary typo. The changelog does not substitute for the uncollected earlier v2 message.",
+  "last_reviewed": "2026-09-08"
+}

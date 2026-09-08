@@ -1,0 +1,67 @@
+{
+  "id": "SRC-0283",
+  "source_type": "correspondence",
+  "title": "[PATCH 0/2] Virtual ethernet device (v3)",
+  "authors_or_bodies": [
+    "Pavel Emelianov"
+  ],
+  "date": {
+    "value": "2007-07-12",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "Thu, 12 Jul 2007 13:13:35 +0400 = 2007-07-12 09:13:35 UTC; cover-message date."
+  },
+  "edition_or_revision": "v3 cover only; associated subpatches not examined",
+  "identifiers": [
+    {
+      "scheme": "Message-ID",
+      "value": "<4695F0BF.1000305@openvz.org>"
+    }
+  ],
+  "publisher_or_issuer": "netdev mailing list; preserved by Openwall",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "veth",
+    "virtual Ethernet",
+    "rtnetlink",
+    "public patch review"
+  ],
+  "artifact_ids": [
+    "ART-0249"
+  ],
+  "access": {
+    "canonical_url": "https://lists.openwall.net/netdev/2007/07/12/38",
+    "archive_urls": [],
+    "catalog_urls": [],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": "f25276b971ccc87e3d7942bc174a4b78d1f8f36eaeb9321146bdaff0efd870c9",
+    "byte_size": 5917,
+    "mime_type": "text/html",
+    "ocr_status": "not-applicable",
+    "scan_notes": "SHA-256 and byte size identify the saved Openwall HTML response accessed 2026-09-08, including archive navigation, not an original RFC822 message. The complete message body was read and checked against the saved HTML. No message body is redistributed in this repository."
+  },
+  "rights_status": "copyrighted-link-only",
+  "redistribution_notes": "Metadata, access link and bounded claim summaries only; public access does not establish permission to redistribute the full correspondence.",
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "The v3 cover reports making a generic link-creation routine for veth, other drivers creating several devices, and rtnl_newlink reuse.",
+      "locator": "'Changes from v.2.1', paragraph beginning 'Made the generic routine for link creation'",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "This is the author's revision report. The saved cover contains no diff and does not name rtnl_create_link; the helper's own implementation and introduction remain unverified here."
+    }
+  ],
+  "conflicts": [],
+  "notes": "A complete cover is not a complete patch set. Do not turn this report into verified intermediate-code equivalence.",
+  "last_reviewed": "2026-09-08"
+}
