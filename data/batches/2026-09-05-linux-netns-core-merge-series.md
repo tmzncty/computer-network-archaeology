@@ -69,7 +69,7 @@ This batch does **not** prove:
 
 ## Integration follow-up — 2026-09-08
 
-The original scope and negative claims above describe this core batch, not the combined repository. The [companion userspace batch](2026-09-05-iproute2-ip-netns-first-tagged-release.md) and [study](../../docs/routing/iproute2-ip-netns-first-tagged-release.md) now recover the 2008 PID interface, 2011 named/processless introduction and v3.0.0 first tagged release/source snapshot using `SRC-0277..0279`. This does not establish the first public tarball/announcement, packaging or deployment.
+The original scope and negative claims above describe this core batch, not the combined repository. The [companion userspace batch](2026-09-05-iproute2-ip-netns-first-tagged-release.md) and [study](../../docs/routing/iproute2-ip-netns-first-tagged-release.md) now recover the 2008 PID interface, 2011 named/processless introduction and v3.0.0 first tagged release/source snapshot using `SRC-0286..0288`. This does not establish the first public tarball/announcement, packaging or deployment.
 
 The parent remains partial: optional pre-mainline veth evidence; a full numbered-patch Torvalds-tree SHA concordance beyond the selected core anchors; later protocol-family completion when operational claims need it; and the stronger v3.0.0 public-distribution provenance. The 2007 integration and 2008 operational clocks remain distinct, and no lineage edge is added.
 
