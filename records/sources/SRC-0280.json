@@ -1,0 +1,87 @@
+{
+  "id": "SRC-0280",
+  "source_type": "correspondence",
+  "title": "[PATCH] Virtual ethernet tunnel",
+  "authors_or_bodies": [
+    "Pavel Emelianov"
+  ],
+  "date": {
+    "value": "2007-06-06",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "Wed, 06 Jun 2007 19:11:38 +0400 = 2007-06-06 15:11:38 UTC; public proposal, not a first-prototype date."
+  },
+  "edition_or_revision": "Public proposal with complete driver/header patch",
+  "identifiers": [
+    {
+      "scheme": "Message-ID",
+      "value": "<4666CEAA.8010903@openvz.org>"
+    }
+  ],
+  "publisher_or_issuer": "netdev mailing list; preserved by Openwall",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "veth",
+    "virtual Ethernet",
+    "rtnetlink",
+    "public patch review"
+  ],
+  "artifact_ids": [
+    "ART-0249",
+    "ART-0231"
+  ],
+  "access": {
+    "canonical_url": "https://lists.openwall.net/netdev/2007/06/06/30",
+    "archive_urls": [],
+    "catalog_urls": [],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": "ddb56f3f599fa099b853f47b387d9018a05f849f52b074f9c4bfc81f53579268",
+    "byte_size": 15864,
+    "mime_type": "text/html",
+    "ocr_status": "not-applicable",
+    "scan_notes": "SHA-256 and byte size identify the saved Openwall HTML response accessed 2026-09-08, including archive navigation, not an original RFC822 message. The complete message body was read and checked against the saved HTML. No message body is redistributed in this repository."
+  },
+  "rights_status": "copyrighted-link-only",
+  "redistribution_notes": "Metadata, access link and bounded claim summaries only; public access does not establish permission to redistribute the full correspondence.",
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "The public proposal describes paired link-layer Ethernet devices and communication between network namespaces as an intended use.",
+      "locator": "Opening description, paragraphs beginning 'Veth stands' and 'Mainly it allows'",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249",
+        "ART-0231"
+      ],
+      "notes": "Intended use, not proof of namespace deployment or descent."
+    },
+    {
+      "claim": "The author specifically credits Eric W. Biederman's patch for the ethtool interface.",
+      "locator": "Paragraph beginning 'Eric, since ethtool interface was from your patch'; driver header and peer_ifindex readout",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "Property-level credit only; not whole-driver etun or OpenVZ genealogy."
+    },
+    {
+      "claim": "The patch uses dedicated VETH_INFO_MAC and VETH_INFO_PEER_MAC attributes and a NLA_STRING VETH_INFO_PEER whose implicit enum value is 2.",
+      "locator": "Complete patch: veth_newlink, veth_policy and include/net/veth.h enum",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "The final SRC-0269 interface differs in enum value and payload; no unchanged ABI claim."
+    }
+  ],
+  "conflicts": [],
+  "notes": "Public discussion is established by this date, not its earliest occurrence. The prose spelling RTM_NRELINK is a typo, not a separate API.",
+  "last_reviewed": "2026-09-08"
+}
