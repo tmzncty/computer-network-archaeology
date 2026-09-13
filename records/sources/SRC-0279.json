@@ -1,0 +1,100 @@
+{
+  "id": "SRC-0279",
+  "source_type": "rfc",
+  "title": "IMP System Change Notification",
+  "authors_or_bodies": [
+    "J. McQuillan",
+    "BBN-NET"
+  ],
+  "date": {
+    "value": "1972-04-19",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "The RFC document header reads 19 April 1972; use the document text as the date authority for this record."
+  },
+  "edition_or_revision": "RFC 331 / NIC 9924",
+  "identifiers": [
+    {
+      "scheme": "RFC",
+      "value": "331"
+    },
+    {
+      "scheme": "NIC",
+      "value": "9924"
+    },
+    {
+      "scheme": "IMPSYS",
+      "value": "2600"
+    },
+    {
+      "scheme": "IMPSYS",
+      "value": "2514"
+    }
+  ],
+  "publisher_or_issuer": "Network Working Group / RFC Editor archival corpus",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "ARPANET",
+    "IMP software",
+    "IMPSYS 2514",
+    "IMPSYS 2600",
+    "deployment",
+    "field operations"
+  ],
+  "artifact_ids": [
+    "ART-0006"
+  ],
+  "access": {
+    "canonical_url": "https://www.rfc-editor.org/rfc/rfc331.html",
+    "archive_urls": [],
+    "catalog_urls": [
+      "https://www.rfc-editor.org/info/rfc331"
+    ],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": null,
+    "byte_size": null,
+    "mime_type": "text/html",
+    "page_count": null,
+    "ocr_status": "not-applicable",
+    "scan_notes": null
+  },
+  "rights_status": "rfc-distribution-terms",
+  "redistribution_notes": "Prefer the RFC Editor canonical copy and metadata unless repository mirroring is independently useful.",
+  "provenance": {
+    "original_holder": "ARPANET Network Working Group / BBN-NET publication stream",
+    "current_holder": "RFC Editor archival corpus",
+    "donor_or_collection": null,
+    "chain_notes": "Contemporary BBN-NET field-change notification written while planning IMPSYS 2600."
+  },
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "On 19 April 1972 RFC 331 describes IMPSYS 2514 as the current system that would be reloaded if the planned experimental IMPSYS 2600 cutover failed.",
+      "locator": "RFC 331, opening paragraph",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0006"
+      ],
+      "notes": "This establishes an operational lower bound for IMPSYS 2514 by 19 April 1972, not the exact successful installation time at every ARPANET site."
+    },
+    {
+      "claim": "RFC 331 planned IMPSYS 2600 field release for 15 May 1972 and required site personnel to load new IMPLOD 2600 tapes, documenting the operational mechanism of network-wide IMP software transition.",
+      "locator": "RFC 331, first two paragraphs",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0006"
+      ],
+      "notes": "Useful context for how BBN coordinated IMP software releases; it does not prove that the earlier 2514 rollout used identical procedures at every site."
+    }
+  ],
+  "conflicts": [],
+  "notes": "Use this source only as a lower-bound confirmation that 2514 was operational by April 1972; RFC 271's 13 January date is explicitly a schedule.",
+  "last_reviewed": "2026-09-08"
+}

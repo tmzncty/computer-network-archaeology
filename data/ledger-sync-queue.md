@@ -19,6 +19,8 @@ Recent ranges include:
 - `ART-0249` — initial Linux veth pair driver mainline implementation and stable-release boundary;
 - `ART-0250` — iproute2 named/processless `ip netns` command family and first tagged-release boundary.
 
+The 2026-09-08 BBN 1822/IMPSYS batch creates no new artifact and attaches evidence to existing `ART-0006`/`ART-0008`.
+
 **Next unreserved artifact ID: `ART-0251`**, subject to merge-time verification.
 
 ### Sources
@@ -31,11 +33,13 @@ Recent ranges include:
 - `SRC-0264..0268` — dedicated tcp_metrics cache, timestamp consolidation, Generic Netlink/userspace administration and ssthresh-cache policy;
 - `SRC-0269..0270` — initial veth mainline commit and Linux v2.6.24 released source snapshot;
 - `SRC-0271..0276` — September 2007 Linux network-namespace core series/status, key mainline anchors, separate clone/unshare path, and the Netlink safety boundary.
+- `SRC-0277..0279` — RFC 270/271/331 evidence separating the January 1972 Report 1822 documentation correction from the IMPSYS 2513→2514 Host-up timing change and confirming a 2514 operational lower bound.
+- `SRC-0280..0285` — June veth proposal/review, July v2.1 patch and v3/v4 covers, and August subsystem-acceptance reply.
 - `SRC-0286..0288` — PID-selected netns administration, named/processless `ip netns` introduction, and v2.6.39→v3.0.0 tagged-release boundary.
 
-External allocation at the 2026-09-08 08:52 UTC snapshot: main uses `SRC-0277..0279` for RFC 270/271/331; open veth PR #20 uses `SRC-0280..0285`. Those external records are not incorporated into this userspace research branch by the ID migration. Preserve these occupied ranges and reconcile the complete queue when merging.
+The kernel, RFC, veth and userspace ranges above are incorporated together. The userspace ID migration in PR #21 resolved the earlier RFC collision; its commit-qualified historical mappings remain in `data/batches/2026-09-05-iproute2-ip-netns-first-tagged-release.md` and are not current ID aliases.
 
-**Next unreserved source ID: `SRC-0289`**, subject to merge-time verification.
+**Next unreserved source ID: `SRC-0289`**, subject to merge-time union verification.
 
 ### Lineages
 
@@ -45,6 +49,8 @@ External allocation at the 2026-09-08 08:52 UTC snapshot: main uses `SRC-0277..0
 - `LIN-0195` — mainline BBR → Google BBRv3 development-branch relationship with explicit mainline negative claim;
 - `LIN-0196..0197` — TCP_INFO append-style pacing and delivery-rate observability evolution;
 - `LIN-0198..0200` — route-metrics→dedicated tcp_metrics split, `ip tcp_metrics` operational exposure, and TCP_INFO/tcp_metrics state-plane distinction.
+
+The 2026-09-08 BBN 1822/IMPSYS batch creates no lineage edge because co-publication, cross-reference and chronology do not establish causal/descent lineage.
 
 **Next unreserved lineage ID: `LIN-0201`**, subject to merge-time verification.
 
@@ -60,6 +66,7 @@ Use `docs/methodology/root-hunting-master-worklist.md`. New work must be added t
 - `data/batches/2026-09-01-veth-upstream-provenance.md`
 - `data/batches/2026-09-05-linux-netns-core-merge-series.md`
 - `data/batches/2026-09-05-iproute2-ip-netns-first-tagged-release.md`
+- `data/batches/2026-09-08-bbn-1822-impsys-2514-timeout-distinction.md`
 
 ## Current narrative frontier
 
@@ -74,6 +81,7 @@ Latest additions:
 - `docs/routing/linux-veth-upstream-provenance.md`
 - `docs/routing/linux-network-namespace-core-merge-series.md`
 - `docs/routing/iproute2-ip-netns-first-tagged-release.md`
+- `docs/arpanet/bbn-1822-impsys-2514-timeout-distinction.md`
 
 ## Flat-ledger merge checklist
 

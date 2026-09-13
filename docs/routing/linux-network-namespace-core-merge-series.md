@@ -110,7 +110,7 @@ The parent work item is now narrower:
 
 - the companion userspace study has recovered the v3.0.0 first tagged release/source snapshot; a contemporary announcement or original distribution artifact is still needed for the stronger first-public-tarball claim;
 - recover a full one-to-one Torvalds-tree SHA concordance for the numbered 01/16..17/16 patches, beyond the selected exact anchors above;
-- optionally recover pre-mainline veth patch-series/prototype evidence;
+- the [veth study](linux-veth-upstream-provenance.md) now recovers a bounded public proposal/revision/acceptance slice; complete intermediate subpatches, earliest-prototype/first-deployment evidence, specific OpenVZ descent and Linus first-parent integration remain unestablished;
 - if a later operational study needs it, trace protocol-family completion beyond the 2.6.24 core staging without retroactively treating the core merge as full-stack completion.
 
 ## Primary source locations

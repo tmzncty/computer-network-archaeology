@@ -1,0 +1,67 @@
+{
+  "id": "SRC-0285",
+  "source_type": "correspondence",
+  "title": "Re: [PATCH] Virtual ethernet device (v.4)",
+  "authors_or_bodies": [
+    "David Miller"
+  ],
+  "date": {
+    "value": "2007-08-08",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "Original header: Wed, 08 Aug 2007 22:18:27 -0700 (PDT) = 2007-08-09 05:18:27 UTC. The archive URL uses August 9; this record preserves the author's local calendar date."
+  },
+  "edition_or_revision": "Subsystem acceptance reply",
+  "identifiers": [
+    {
+      "scheme": "Message-ID",
+      "value": "<20070808.221827.05602119.davem@davemloft.net>"
+    }
+  ],
+  "publisher_or_issuer": "netdev mailing list; preserved by Openwall",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "veth",
+    "virtual Ethernet",
+    "rtnetlink",
+    "public patch review"
+  ],
+  "artifact_ids": [
+    "ART-0249"
+  ],
+  "access": {
+    "canonical_url": "https://lists.openwall.net/netdev/2007/08/09/24",
+    "archive_urls": [],
+    "catalog_urls": [],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": "968a7f908d9e74d6e2177c91a91d29f4f3414ae339a2c412249e84f5799cecec",
+    "byte_size": 4921,
+    "mime_type": "text/html",
+    "ocr_status": "not-applicable",
+    "scan_notes": "SHA-256 and byte size identify the saved Openwall HTML response accessed 2026-09-08, including archive navigation, not an original RFC822 message. The complete message body was read and checked against the saved HTML. No message body is redistributed in this repository."
+  },
+  "rights_status": "copyrighted-link-only",
+  "redistribution_notes": "Metadata, access link and bounded claim summaries only; public access does not establish permission to redistribute the full correspondence.",
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "David Miller states that he has added the driver to his net-2.6.24 tree.",
+      "locator": "Date header and final sentence beginning \"I've added it to my net-2.6.24\"",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "An acceptance statement about Miller's subsystem tree, not Linus's first-parent history, deployment, or proof of equality to the later SRC-0269 object."
+    }
+  ],
+  "conflicts": [],
+  "notes": "Do not confuse the reply header with the quoted author's August 8 14:42:50 +0400 message. The exact subsystem object is not identified in this reply.",
+  "last_reviewed": "2026-09-08"
+}

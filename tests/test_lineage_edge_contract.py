@@ -153,6 +153,32 @@ class LineageEdgeContractTests(unittest.TestCase):
                     f"expected each source to require 'supports'; got {errors!r}",
                 )
 
+    def test_every_relation_requires_nonblank_source_reference_and_locator(
+        self,
+    ) -> None:
+        cases = (
+            (None, "type"),
+            ("", "minLength"),
+            (" \t ", "pattern"),
+            ("\N{NO-BREAK SPACE}", "pattern"),
+        )
+        for relation in self.relations:
+            for field in ("source_ref", "locator"):
+                for value, validator in cases:
+                    document = self.complete_record(relation)
+                    document["sources"][0][field] = value
+
+                    with self.subTest(
+                        relation=relation,
+                        field=field,
+                        value=value,
+                    ):
+                        self.assert_field_error(
+                            document,
+                            ["sources", 0, field],
+                            validator,
+                        )
+
     def test_every_relation_requires_nonblank_source_supports(self) -> None:
         cases = (
             (None, "type"),

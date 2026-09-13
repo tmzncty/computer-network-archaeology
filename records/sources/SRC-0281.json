@@ -1,0 +1,67 @@
+{
+  "id": "SRC-0281",
+  "source_type": "correspondence",
+  "title": "Re: [PATCH] Virtual ethernet tunnel",
+  "authors_or_bodies": [
+    "Patrick McHardy"
+  ],
+  "date": {
+    "value": "2007-06-06",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "Wed, 06 Jun 2007 17:28:22 +0200 = 2007-06-06 15:28:22 UTC; review message."
+  },
+  "edition_or_revision": "Review of June public proposal",
+  "identifiers": [
+    {
+      "scheme": "Message-ID",
+      "value": "<4666D296.2000002@trash.net>"
+    }
+  ],
+  "publisher_or_issuer": "netdev mailing list; preserved by Openwall",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "veth",
+    "virtual Ethernet",
+    "rtnetlink",
+    "public patch review"
+  ],
+  "artifact_ids": [
+    "ART-0249"
+  ],
+  "access": {
+    "canonical_url": "https://lists.openwall.net/netdev/2007/06/06/35",
+    "archive_urls": [],
+    "catalog_urls": [],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": "4b63fe4b60d213c52d366f84612ebd57cb1ee0d2b1b7c6f472d002fc6b72107e",
+    "byte_size": 7481,
+    "mime_type": "text/html",
+    "ocr_status": "not-applicable",
+    "scan_notes": "SHA-256 and byte size identify the saved Openwall HTML response accessed 2026-09-08, including archive navigation, not an original RFC822 message. The complete message body was read and checked against the saved HTML. No message body is redistributed in this repository."
+  },
+  "rights_status": "copyrighted-link-only",
+  "redistribution_notes": "Metadata, access link and bounded claim summaries only; public access does not establish permission to redistribute the full correspondence.",
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "McHardy objects to VETH_INFO_MAC because a generic MAC attribute already exists, and asks about creating a single device then using a separate enslave operation.",
+      "locator": "Paragraph beginning 'The rtnl_link codes looks fine'",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "These are review suggestions. The final driver uses generic IFLA_ADDRESS but still creates a pair; this does not prove every suggestion was adopted or caused a final line."
+    }
+  ],
+  "conflicts": [],
+  "notes": "Read as contemporary review, not as the final interface specification.",
+  "last_reviewed": "2026-09-08"
+}
