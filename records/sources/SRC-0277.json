@@ -1,0 +1,94 @@
+{
+  "id": "SRC-0277",
+  "source_type": "rfc",
+  "title": "Correction to BBN Report No. 1822",
+  "authors_or_bodies": [
+    "A. McKenzie",
+    "Bolt Beranek and Newman Inc. (BBN)"
+  ],
+  "date": {
+    "value": "1972-01-01",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "Date printed in RFC 270."
+  },
+  "edition_or_revision": "RFC 270 / NIC 7818",
+  "identifiers": [
+    {
+      "scheme": "RFC",
+      "value": "270"
+    },
+    {
+      "scheme": "NIC",
+      "value": "7818"
+    }
+  ],
+  "publisher_or_issuer": "Network Working Group / RFC Editor archival corpus",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "ARPANET",
+    "BBN Report 1822",
+    "Host-IMP interface",
+    "timeout",
+    "Ready line",
+    "documentation correction"
+  ],
+  "artifact_ids": [
+    "ART-0008",
+    "ART-0006"
+  ],
+  "access": {
+    "canonical_url": "https://www.rfc-editor.org/rfc/rfc270.html",
+    "archive_urls": [],
+    "catalog_urls": [
+      "https://www.rfc-editor.org/info/rfc270"
+    ],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": null,
+    "byte_size": null,
+    "mime_type": "text/html",
+    "page_count": null,
+    "ocr_status": "not-applicable",
+    "scan_notes": null
+  },
+  "rights_status": "rfc-distribution-terms",
+  "redistribution_notes": "Prefer the RFC Editor canonical copy and metadata unless repository mirroring is independently useful.",
+  "provenance": {
+    "original_holder": "ARPANET Network Working Group / BBN publication stream",
+    "current_holder": "RFC Editor archival corpus",
+    "donor_or_collection": null,
+    "chain_notes": "RFC 270 is a contemporary correction notice for errors in an earlier BBN Report 1822 text, not a later retrospective."
+  },
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "RFC 270 corrects BBN Report 1822 (NIC 7958) page 25 and the first two lines of page 26: under the stated conditions the Host is not marked dead and the timeout is 30 rather than 40 seconds.",
+      "locator": "RFC 270, opening paragraph, corrected page-25 instructions",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0008"
+      ],
+      "notes": "The correction is scoped to the stated Host-IMP conditions; it is not evidence that every IMP timer was 30 seconds."
+    },
+    {
+      "claim": "RFC 270 explicitly states that these were errors in previous Report 1822 versions, not changes to the IMP system, and says the relevant timeout had always been 30 seconds.",
+      "locator": "RFC 270, second paragraph",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0008",
+        "ART-0006"
+      ],
+      "notes": "This negative evidence is essential when reading RFC 271, which discusses a different 2513-to-2514 timer change."
+    }
+  ],
+  "conflicts": [],
+  "notes": "Do not conflate this Host output-queue/interface-clearing timeout with the separate post-Host-up input delay discussed in RFC 271.",
+  "last_reviewed": "2026-09-08"
+}

@@ -1,12 +1,15 @@
 import json
 import tempfile
 import unittest
+from decimal import Decimal
 from pathlib import Path
 
 from scripts.validate_records import (
+    GROUPS,
     LoadedRecord,
     iter_references,
     load_json_object,
+    load_schema,
     validate_references,
     validate_repository,
 )
@@ -49,6 +52,163 @@ class StrictJSONLoadingTests(unittest.TestCase):
                     [f"record.json: invalid JSON: non-finite number {value!r}"],
                     errors,
                 )
+
+    def test_preserves_non_integral_decimal_numbers_exactly(self) -> None:
+        for raw_number in ("1880.0000000000000001", "1e-324"):
+            with self.subTest(
+                raw_number=raw_number
+            ), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                path = root / "record.json"
+                path.write_text(f'{{"value":{raw_number}}}', encoding="utf-8")
+                errors: list[str] = []
+
+                document = load_json_object(path, root, errors)
+
+                self.assertEqual([], errors)
+                self.assertIsNotNone(document)
+                value = document["value"]
+                self.assertIsInstance(value, Decimal)
+                self.assertEqual(Decimal(raw_number), value)
+
+    def test_normalizes_integral_decimal_spellings_to_integers(self) -> None:
+        cases = {
+            "1.88e3": 1880,
+            "-0.0": 0,
+            "1e400": 10**400,
+            "1e4299": 10**4299,
+        }
+        for raw_number, expected in cases.items():
+            with self.subTest(
+                raw_number=raw_number
+            ), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                path = root / "record.json"
+                path.write_text(f'{{"value":{raw_number}}}', encoding="utf-8")
+                errors: list[str] = []
+
+                document = load_json_object(path, root, errors)
+
+                self.assertEqual([], errors)
+                self.assertIsNotNone(document)
+                self.assertIs(type(document["value"]), int)
+                self.assertEqual(expected, document["value"])
+
+    def test_rejects_numbers_that_exceed_decoder_resource_limits(self) -> None:
+        cases = {
+            "unrepresentable exponent": (
+                "1e1000000000000000000",
+                "unrepresentable decimal exponent",
+            ),
+            "expanded exponent": ("1e4300", "integer exceeds 4300 decimal digits"),
+            "integer literal": ("1" * 4301, "integer exceeds 4300 decimal digits"),
+        }
+        for name, (raw_number, expected_error) in cases.items():
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                path = root / "record.json"
+                path.write_text(f'{{"value":{raw_number}}}', encoding="utf-8")
+                errors: list[str] = []
+
+                document = load_json_object(path, root, errors)
+
+                self.assertIsNone(document)
+                self.assertEqual(
+                    [f"record.json: invalid JSON: {expected_error}"],
+                    errors,
+                )
+
+    def test_integral_schema_keywords_remain_valid(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            path = root / "schema.json"
+            path.write_text('{"type":"array","minItems":1.0}', encoding="utf-8")
+            errors: list[str] = []
+
+            schema = load_schema(path, root, errors)
+
+        self.assertEqual([], errors)
+        self.assertIsNotNone(schema)
+        self.assertIs(type(schema["minItems"]), int)
+        self.assertEqual(1, schema["minItems"])
+
+
+class ExactNumberRepositoryTests(unittest.TestCase):
+    DRAFT = "https://json-schema.org/draft/2020-12/schema"
+
+    def write_repository(self, root: Path, raw_number: str) -> None:
+        bounded_integer = {
+            "$schema": self.DRAFT,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3000,
+        }
+        artifact_schema = {
+            "$schema": self.DRAFT,
+            "type": "object",
+            "$defs": {"boundedInteger": bounded_integer},
+            "properties": {
+                "id": {"type": "string"},
+                "physical": {
+                    "type": "object",
+                    "properties": {
+                        "nominal_bit_rate_bps": {
+                            "$ref": "#/$defs/boundedInteger"
+                        }
+                    },
+                },
+            },
+        }
+
+        for group in GROUPS:
+            (root / group.directory).mkdir(parents=True, exist_ok=True)
+            schema_path = root / group.schema
+            schema_path.parent.mkdir(parents=True, exist_ok=True)
+            schema = artifact_schema if group.name == "artifact" else {}
+            schema_path.write_text(json.dumps(schema), encoding="utf-8")
+            ledger_path = root / group.ledger
+            ledger_path.parent.mkdir(parents=True, exist_ok=True)
+            ledger_path.write_text(f"{group.ledger_id_column}\n", encoding="utf-8")
+
+        artifact = root / "records/artifacts/ART-9999.json"
+        artifact.write_text(
+            '{"id":"ART-9999","physical":{"nominal_bit_rate_bps":'
+            f"{raw_number}}}}}",
+            encoding="utf-8",
+        )
+
+    def test_repository_rejects_precision_bypass_numbers(self) -> None:
+        cases = {
+            "rounding": ("1880.0000000000000001", "not of type 'integer'"),
+            "underflow": ("1e-324", "not of type 'integer'"),
+            "large finite value": ("1e400", "greater than the maximum of 3000"),
+        }
+        for name, (raw_number, expected_error) in cases.items():
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                self.write_repository(root, raw_number)
+
+                report = validate_repository(root)
+
+                self.assertEqual(1, len(report.errors), report.errors)
+                self.assertIn(
+                    "records/artifacts/ART-9999.json:"
+                    "$.physical.nominal_bit_rate_bps:",
+                    report.errors[0],
+                )
+                self.assertIn(expected_error, report.errors[0])
+
+    def test_repository_accepts_integral_decimal_spellings(self) -> None:
+        for raw_number in ("1.88e3", "-0.0"):
+            with self.subTest(
+                raw_number=raw_number
+            ), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                self.write_repository(root, raw_number)
+
+                report = validate_repository(root)
+
+                self.assertEqual([], report.errors)
 
 
 class RecordDiscoveryTests(unittest.TestCase):

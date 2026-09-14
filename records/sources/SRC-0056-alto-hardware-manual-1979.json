@@ -9,7 +9,7 @@
   "publisher_or_issuer": "Xerox Palo Alto Research Center",
   "language": ["en"],
   "topics": ["Xerox Alto", "experimental Ethernet", "2.94 Mbit/s Ethernet", "Ethernet interface", "microcode", "transceiver", "CRC", "collision handling", "BBN-1822 interface"],
-  "artifact_ids": ["ART-0017", "ART-0041"],
+  "artifact_ids": ["ART-0008", "ART-0017", "ART-0041"],
   "access": {
     "canonical_url": "https://xeroxalto.computerhistory.org/_cd8_/altodocs/.altohardware.press%212.pdf",
     "archive_urls": ["https://xeroxalto.computerhistory.org/"],

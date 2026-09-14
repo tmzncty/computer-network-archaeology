@@ -1,0 +1,67 @@
+{
+  "id": "SRC-0284",
+  "source_type": "correspondence",
+  "title": "[PATCH] Virtual ethernet device (v.4)",
+  "authors_or_bodies": [
+    "Pavel Emelyanov"
+  ],
+  "date": {
+    "value": "2007-07-19",
+    "precision": "day",
+    "certainty": "confirmed",
+    "notes": "Thu, 19 Jul 2007 13:24:55 +0400 = 2007-07-19 09:24:55 UTC; cover-message date."
+  },
+  "edition_or_revision": "v4 cover only; associated subpatches not examined",
+  "identifiers": [
+    {
+      "scheme": "Message-ID",
+      "value": "<469F2DE7.9090407@openvz.org>"
+    }
+  ],
+  "publisher_or_issuer": "netdev mailing list; preserved by Openwall",
+  "language": [
+    "en"
+  ],
+  "topics": [
+    "veth",
+    "virtual Ethernet",
+    "rtnetlink",
+    "public patch review"
+  ],
+  "artifact_ids": [
+    "ART-0249"
+  ],
+  "access": {
+    "canonical_url": "https://lists.openwall.net/netdev/2007/07/19/45",
+    "archive_urls": [],
+    "catalog_urls": [],
+    "local_mirror": null,
+    "accessed_on": "2026-09-08",
+    "availability": "open"
+  },
+  "fixity": {
+    "sha256": "7324581d06a9b4578c09039b5c25bf51704742765352572dcd494b4720eb8be5",
+    "byte_size": 6255,
+    "mime_type": "text/html",
+    "ocr_status": "not-applicable",
+    "scan_notes": "SHA-256 and byte size identify the saved Openwall HTML response accessed 2026-09-08, including archive navigation, not an original RFC822 message. The complete message body was read and checked against the saved HTML. No message body is redistributed in this repository."
+  },
+  "rights_status": "copyrighted-link-only",
+  "redistribution_notes": "Metadata, access link and bounded claim summaries only; public access does not establish permission to redistribute the full correspondence.",
+  "evidence_grade": "primary-contemporary",
+  "research_state": "verified",
+  "claims_extracted": [
+    {
+      "claim": "The v4 cover reports reserving struct ifinfomsg space in the IFLA_INFO_DATA part, 'not used yet', and retains the generic-link-routine changelog and McHardy acknowledgement.",
+      "locator": "'Changes from v.3', 'Changes from v.2.1' and Acked-by line",
+      "certainty": "confirmed",
+      "artifact_ids": [
+        "ART-0249"
+      ],
+      "notes": "Cover-level report only. The exact final SRC-0269 code places the prefix at the head of VETH_INFO_PEER and skips it, not at the head of all IFLA_INFO_DATA."
+    }
+  ],
+  "conflicts": [],
+  "notes": "No diff is present in this saved cover; the complete v4 implementation and every intermediate interface transition remain outside this evidence slice.",
+  "last_reviewed": "2026-09-08"
+}

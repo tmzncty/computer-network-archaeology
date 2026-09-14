@@ -3,7 +3,8 @@
 
 The JSON Schemas protect each record in isolation.  This script adds the
 repository-level invariants that JSON Schema cannot express: stable IDs,
-filename/ID agreement, ledger identities, and references between records.
+filename/ID agreement, ledger identities, claim-summary projections, and
+references between records.
 """
 
 from __future__ import annotations
@@ -11,6 +12,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 import csv
+from decimal import Decimal, InvalidOperation
 import json
 import re
 import sys
@@ -111,6 +113,33 @@ class StrictJSONError(ValueError):
     """Raised when Python's permissive JSON decoder accepts invalid JSON."""
 
 
+# Match CPython's default integer-string safety ceiling, but enforce it before
+# materializing an exponent-expanded integer so process-wide settings cannot
+# turn a small JSON token such as ``1e100000000`` into a giant allocation.
+_MAX_JSON_INTEGER_DIGITS = 4300
+
+
+def parse_json_number(value: str) -> int | Decimal:
+    """Decode a JSON number exactly while bounding integer materialization."""
+
+    try:
+        exact = Decimal(value)
+    except InvalidOperation as error:
+        raise StrictJSONError("unrepresentable decimal exponent") from error
+
+    if not exact.is_finite():
+        raise StrictJSONError("non-finite number")
+    if exact != exact.to_integral_value():
+        return exact
+
+    integer_digits = 1 if exact.is_zero() else exact.adjusted() + 1
+    if integer_digits > _MAX_JSON_INTEGER_DIGITS:
+        raise StrictJSONError(
+            f"integer exceeds {_MAX_JSON_INTEGER_DIGITS} decimal digits"
+        )
+    return int(exact)
+
+
 def display_path(path: Path, root: Path) -> str:
     try:
         return path.relative_to(root).as_posix()
@@ -202,6 +231,8 @@ def load_json_object(
             path.read_text(encoding="utf-8"),
             object_pairs_hook=reject_duplicate_keys,
             parse_constant=reject_non_finite_number,
+            parse_float=parse_json_number,
+            parse_int=parse_json_number,
         )
     except (OSError, UnicodeError) as error:
         errors.append(f"{label}: cannot read UTF-8 JSON: {error}")
@@ -386,19 +417,33 @@ def load_ledger_ids(
                     f"{label}: missing required column {group.ledger_id_column!r}"
                 )
                 return ids
+            configured_references = (
+                LEDGER_REFERENCE_COLUMNS.get(group.name, {})
+                if references is not None
+                else {}
+            )
+            missing_reference_columns = [
+                column for column in configured_references if column not in fieldnames
+            ]
             expected_field_count = len(fieldnames)
             id_column_index = fieldnames.index(group.ledger_id_column)
             reference_columns = [
                 (fieldnames.index(column), column, target_group)
-                for column, target_group in LEDGER_REFERENCE_COLUMNS.get(
-                    group.name, {}
-                ).items()
+                for column, target_group in configured_references.items()
                 if column in fieldnames
             ]
             for row in reader:
                 line_number = reader.line_num
                 if not row:
                     continue
+                if missing_reference_columns:
+                    rendered = ", ".join(
+                        repr(column) for column in missing_reference_columns
+                    )
+                    errors.append(
+                        f"{label}: missing required reference column(s): {rendered}"
+                    )
+                    return ids
                 if len(row) != expected_field_count:
                     errors.append(
                         f"{label}:{line_number}: malformed CSV row has "
@@ -531,6 +576,93 @@ def validate_references(
     return errors
 
 
+def validate_parent_family_cycles(
+    records: Sequence[LoadedRecord], root: Path
+) -> list[str]:
+    """Reject cycles among artifact-ID ``parent_family`` references."""
+
+    artifact_pattern = GROUP_BY_NAME["artifact"].id_pattern
+    parents: dict[str, str] = {}
+    paths: dict[str, Path] = {}
+    for record in records:
+        if record.group != "artifact":
+            continue
+        artifact_id = record.document.get("id")
+        parent_family = record.document.get("parent_family")
+        if not (
+            isinstance(artifact_id, str)
+            and artifact_pattern.fullmatch(artifact_id)
+            and isinstance(parent_family, str)
+            and artifact_pattern.fullmatch(parent_family)
+        ):
+            continue
+        # Duplicate IDs are reported separately. Keep the first canonical path
+        # so cycle diagnostics remain stable even in an already-invalid corpus.
+        parents.setdefault(artifact_id, parent_family)
+        paths.setdefault(artifact_id, record.path)
+
+    errors: list[str] = []
+    completed: set[str] = set()
+    for start in sorted(parents):
+        if start in completed:
+            continue
+        trail: list[str] = []
+        positions: dict[str, int] = {}
+        current = start
+        while current in parents and current not in completed:
+            if current in positions:
+                cycle = trail[positions[current] :]
+                anchor = min(cycle)
+                anchor_index = cycle.index(anchor)
+                cycle = cycle[anchor_index:] + cycle[:anchor_index]
+                rendered_cycle = " -> ".join([*cycle, anchor])
+                errors.append(
+                    f"{display_path(paths[anchor], root)}:$.parent_family: "
+                    f"parent_family cycle detected: {rendered_cycle}"
+                )
+                break
+            positions[current] = len(trail)
+            trail.append(current)
+            current = parents[current]
+        completed.update(trail)
+    return errors
+
+
+def validate_source_claim_artifact_projection(
+    records: Sequence[LoadedRecord], root: Path
+) -> list[str]:
+    """Require claim-level artifact links to appear in the source summary."""
+
+    errors: list[str] = []
+    artifact_pattern = GROUP_BY_NAME["artifact"].id_pattern
+    for record in records:
+        if record.group != "source":
+            continue
+
+        declared_artifacts = {
+            artifact_id
+            for _, artifact_id in strings(record.document.get("artifact_ids"))
+            if artifact_pattern.fullmatch(artifact_id)
+        }
+        claims = record.document.get("claims_extracted")
+        if not isinstance(claims, list):
+            continue
+        for claim_index, claim in enumerate(claims):
+            if not isinstance(claim, dict):
+                continue
+            for artifact_index, artifact_id in strings(claim.get("artifact_ids")):
+                if (
+                    artifact_pattern.fullmatch(artifact_id)
+                    and artifact_id not in declared_artifacts
+                ):
+                    errors.append(
+                        f"{display_path(record.path, root)}:$.claims_extracted"
+                        f"[{claim_index}].artifact_ids[{artifact_index}]: artifact ID "
+                        f"{artifact_id} is not declared in $.artifact_ids"
+                    )
+    return errors
+
+
 def validate_ledger_references(
     references: Sequence[LedgerReference],
     known_ids: Mapping[str, set[str]],
@@ -655,6 +787,8 @@ def validate_repository(root: Path) -> ValidationReport:
         for group in GROUPS
     }
     errors.extend(validate_references(records, known_ids, root))
+    errors.extend(validate_parent_family_cycles(records, root))
+    errors.extend(validate_source_claim_artifact_projection(records, root))
     errors.extend(validate_ledger_references(ledger_references, known_ids, root))
     # A registered directory is also visited by the closure scan.  Collapse an
     # identical path failure from those two independent checks into one report.

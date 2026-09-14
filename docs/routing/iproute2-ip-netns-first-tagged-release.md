@@ -91,7 +91,7 @@ The sources do not say that the 2011 design was derived from the 2008 patch. Chr
 The parent worklist item is still partial. Remaining:
 
 - extend the companion core-series study to a full numbered-patch Torvalds-tree SHA concordance, and trace later protocol-family completion only where needed for operational claims; its series identity/order, contemporary status and selected exact anchors are already recovered;
-- optionally recover pre-mainline veth patch-series provenance;
+- the [veth study](linux-veth-upstream-provenance.md) now recovers a bounded public proposal/revision/acceptance slice; complete intermediate subpatches, earliest-prototype/first-deployment evidence, specific OpenVZ descent and Linus first-parent integration remain unestablished;
 - if the stronger distribution claim is needed, recover a contemporary v3.0.0 announcement or original distribution artifact.
 
 ## Primary source locations
