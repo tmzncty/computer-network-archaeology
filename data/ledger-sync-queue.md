@@ -16,9 +16,10 @@ Recent ranges include:
 - `ART-0242..0243` — mainline BBR and Google BBRv3 development branch;
 - `ART-0244..0246` — TCP_INFO base observability plus pacing- and delivery-rate extensions;
 - `ART-0247..0248` — dedicated Linux TCP metrics cache and `ip tcp_metrics` administration;
-- `ART-0249` — initial Linux veth pair driver mainline implementation and stable-release boundary.
+- `ART-0249` — initial Linux veth pair driver mainline implementation and stable-release boundary;
+- `ART-0250` — iproute2 named/processless `ip netns` command family and first tagged-release boundary.
 
-`ART-0250` is reserved by a concurrent open `ip netns` research branch. The 2026-09-08 BBN 1822/IMPSYS batch creates no new artifact and attaches evidence to existing `ART-0006`/`ART-0008`.
+The 2026-09-08 BBN 1822/IMPSYS batch creates no new artifact and attaches evidence to existing `ART-0006`/`ART-0008`.
 
 **Next unreserved artifact ID: `ART-0251`**, subject to merge-time verification.
 
@@ -31,11 +32,14 @@ Recent ranges include:
 - `SRC-0261..0263` — early TCP_INFO snapshot and pacing/delivery-rate field additions;
 - `SRC-0264..0268` — dedicated tcp_metrics cache, timestamp consolidation, Generic Netlink/userspace administration and ssthresh-cache policy;
 - `SRC-0269..0270` — initial veth mainline commit and Linux v2.6.24 released source snapshot;
-- `SRC-0271..0276` — reserved by concurrent open network-namespace/iproute2 research branches; reconcile exact ownership at merge time;
+- `SRC-0271..0276` — September 2007 Linux network-namespace core series/status, key mainline anchors, separate clone/unshare path, and the Netlink safety boundary.
 - `SRC-0277..0279` — RFC 270/271/331 evidence separating the January 1972 Report 1822 documentation correction from the IMPSYS 2513→2514 Host-up timing change and confirming a 2514 operational lower bound.
 - `SRC-0280..0285` — June veth proposal/review, July v2.1 patch and v3/v4 covers, and August subsystem-acceptance reply.
+- `SRC-0286..0288` — PID-selected netns administration, named/processless `ip netns` introduction, and v2.6.39→v3.0.0 tagged-release boundary.
 
-**Next unreserved source ID: `SRC-0286`**, subject to merge-time union verification. PR #18's integration, now merged into #12, uses `SRC-0277..0279` for different iproute2 sources; those existing collisions with main remain unresolved by this veth supplement.
+The kernel, RFC, veth and userspace ranges above are incorporated together. The userspace ID migration in PR #21 resolved the earlier RFC collision; its commit-qualified historical mappings remain in `data/batches/2026-09-05-iproute2-ip-netns-first-tagged-release.md` and are not current ID aliases.
+
+**Next unreserved source ID: `SRC-0289`**, subject to merge-time union verification.
 
 ### Lineages
 
@@ -48,7 +52,7 @@ Recent ranges include:
 
 The 2026-09-08 BBN 1822/IMPSYS batch creates no lineage edge because co-publication, cross-reference and chronology do not establish causal/descent lineage.
 
-**Next unreserved lineage ID: `LIN-0201`**, subject to verification.
+**Next unreserved lineage ID: `LIN-0201`**, subject to merge-time verification.
 
 ## Persistent task authority
 
@@ -60,6 +64,8 @@ Use `docs/methodology/root-hunting-master-worklist.md`. New work must be added t
 - `data/batches/2026-08-29-netlink-iproute-netns-vrf.md`
 - `data/batches/2026-08-29-tcp-recovery-congestion-observability.md`
 - `data/batches/2026-09-01-veth-upstream-provenance.md`
+- `data/batches/2026-09-05-linux-netns-core-merge-series.md`
+- `data/batches/2026-09-05-iproute2-ip-netns-first-tagged-release.md`
 - `data/batches/2026-09-08-bbn-1822-impsys-2514-timeout-distinction.md`
 
 ## Current narrative frontier
@@ -73,6 +79,8 @@ Latest additions:
 - `docs/tcp/linux-tcp-info-field-genealogy.md`
 - `docs/tcp/tcp-metrics-cache-ip-tcp-metrics.md`
 - `docs/routing/linux-veth-upstream-provenance.md`
+- `docs/routing/linux-network-namespace-core-merge-series.md`
+- `docs/routing/iproute2-ip-netns-first-tagged-release.md`
 - `docs/arpanet/bbn-1822-impsys-2514-timeout-distinction.md`
 
 ## Flat-ledger merge checklist
