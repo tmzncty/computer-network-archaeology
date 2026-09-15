@@ -14,6 +14,8 @@ They overlap operationally, but they are not versions of one feature.
 
 A root-hunting archive must ask what each one isolates and which earlier mechanism it builds on.
 
+For exact VRF/l3mdev patch, commit, tagged-release and product-availability chronology, see [`linux-vrf-l3mdev-mainline-chronology.md`](linux-vrf-l3mdev-mainline-chronology.md). That evidence pins the VRF driver to Linux v4.3, the generalized l3mdev abstraction to v4.4, and the single l3mdev FIB-rule interface to v4.8 without collapsing those three milestones.
+
 ## 1. RPDB and multiple FIB tables come first in this lineage
 
 The rtnetlink header introduced in Linux 2.1.68 already contains rule operations:
@@ -153,11 +155,11 @@ VRF devices
 per-VRF FIB tables
 ```
 
-## 6. Before l3mdev: per-VRF iif/oif rules
+The exact upstream chronology is now bounded more tightly: initial VRF driver commit `193125dbd8eb…` is present in Linux v4.3 but not v4.2; the later l3mdev abstraction is a separate generalization milestone.
 
-The Linux kernel VRF documentation preserves a useful migration fossil.
+## 6. Before l3mdev rule: per-VRF iif/oif rules
 
-Before Linux 4.8, each VRF needed explicit input/output-interface rules such as:
+Early VRF operation needed explicit input/output-interface rules such as:
 
 ```text
 ip rule add iif vrf-blue table 10
@@ -166,13 +168,25 @@ ip rule add oif vrf-blue table 10
 
 plus IPv6 equivalents.
 
+The 2016 mainline commit `96c63fa7393d…` documents the scaling consequence directly: the same rule shape had to be repeated per VRF and address family, with the table ID as the principal changing value.
+
 This shows that early VRF support was layered directly on the existing RPDB rule machinery.
 
 ## 7. Linux 4.8: l3mdev condenses the rule layer
 
 As of Linux 4.8, the kernel supports an `l3mdev` FIB rule. One rule can direct lookups to the table associated with the L3-master device.
 
-The first VRF device creates default IPv4 and IPv6 l3mdev rules.
+The exact mainline changes are:
+
+```text
+96c63fa7393d0a346acfe5a91e0c7d4c7782641b
+net: Add l3mdev rule
+
+1aa6c4f6b8cd84b8b36ebf43c6861ca87eab4da0
+net: vrf: Add l3mdev rules on first device create
+```
+
+The first VRF device creates default IPv4 and IPv6 l3mdev rules at preference 1000, and administrators can replace or outrank the defaults.
 
 So the architecture changes from:
 
@@ -190,20 +204,28 @@ VRF device identity
 associated FIB table
 ```
 
-This is a real simplification of policy-routing plumbing, not a new routing protocol.
+This is a real simplification of policy-routing plumbing, not a new routing protocol. A direct adjacent-tag check finds no `FRA_L3MDEV` in v4.7 and finds it in v4.8.
 
-## 8. iproute2 gains explicit VRF language
+## 8. iproute2 gains VRF support in stages
 
-Kernel documentation says iproute2 supports the `vrf` keyword as of version 4.7.
+The userspace chronology also needs more precision than a single version number.
 
-This creates another familiar pattern:
+A public iproute2 RFC dated 2015-07-06 already proposed `ip link` support for creating a VRF device and setting its table binding. iproute2 4.3.0 release notes list David Ahern's `add support for VRF device` change. That is the device-management layer used by commands such as:
 
 ```text
-kernel mechanism appears
+ip link add vrf-blue type vrf table 10
+```
+
+Kernel VRF documentation separately notes later `vrf` keyword support in iproute2 4.7. That later convenience vocabulary should not be back-projected as the first appearance of all VRF userspace support.
+
+So the safer chronology is:
+
+```text
+2015 public iproute2 VRF-device patch
         ↓
-generic old syntax can operate it
+iproute2 4.3.0 includes VRF device support
         ↓
-later user-space gains first-class vocabulary
+later first-class VRF convenience vocabulary expands
 ```
 
 The operational interface becomes clearer without changing the fundamental routing-domain concept.
@@ -252,11 +274,16 @@ stack isolation         │
         └─ can contain ─┤
                         ↓
                      VRF device
-                     Linux 4.x
+                     Linux 4.3
+                        ↓
+               generalized into
+                     l3mdev
+                     Linux 4.4
                         ↓
               per-VRF iif/oif rules
                         ↓
-                 Linux 4.8 l3mdev
+                 Linux 4.8
+              FRA_L3MDEV rule
 ```
 
 Do not rewrite this as a false linear chain:
@@ -265,16 +292,23 @@ Do not rewrite this as a false linear chain:
 RPDB → netns → VRF
 ```
 
-They solve different scopes and coexist.
+They solve different scopes and coexist. The VRF→l3mdev relation is exceptional here because the contemporary patch series explicitly describes that generalization; the netns/VRF relationship does not have equivalent descent evidence.
 
 ## Evidence anchors
 
+- exact VRF/l3mdev chronology: [`linux-vrf-l3mdev-mainline-chronology.md`](linux-vrf-l3mdev-mainline-chronology.md)
 - `network_namespaces(7)`: https://man7.org/linux/man-pages/man7/network_namespaces.7.html
 - `clone(2)` / `CLONE_NEWNET`: https://man7.org/linux/man-pages/man2/clone.2.html
 - historical CLONE_NEWNET documentation discussion: https://lkml.iu.edu/0811.2/02085.html
 - Linux VRF documentation: https://docs.kernel.org/networking/vrf.html
 - older VRF documentation preserving 4.7/4.8 transition: https://kernel.org/doc/html/v5.12/networking/vrf.html
+- initial VRF commit `193125db…`: https://github.com/torvalds/linux/commit/193125dbd8eb292d88feb201f030889b488b0a02
+- initial l3mdev commit `1b69c6d0…`: https://github.com/torvalds/linux/commit/1b69c6d0ae90b7f1a4f61d5c8209d5cb7a55f849
+- l3mdev FIB-rule commit `96c63fa7…`: https://github.com/torvalds/linux/commit/96c63fa7393d0a346acfe5a91e0c7d4c7782641b
+- automatic rule-install commit `1aa6c4f6…`: https://github.com/torvalds/linux/commit/1aa6c4f6b8cd84b8b36ebf43c6861ca87eab4da0
+- 2015 iproute2 VRF RFC: https://www.spinics.net/lists/netdev/msg334796.html
+- iproute2 4.3.0 release summary: https://lwn.net/Articles/662996/
 - `ip-netns(8)`: https://man7.org/linux/man-pages/man8/ip-netns.8.html
 - Linux 2.1.68 `rtnetlink.h`: https://www.nic.funet.fi/pub/Linux/kernel/v2.1/patch-html/patch-2.1.68/linux_include_linux_rtnetlink.h.html
 
-Research and initial drafting: **GPT-5.6 Sol (OpenAI), August 2026**.
+Research and initial drafting: **GPT-5.6 Sol (OpenAI), August 2026**. Exact VRF/l3mdev chronology updated 2026-09-15.
