@@ -84,7 +84,7 @@ Commit:
 d23ff701643a4a725e2c7a8ba2d567d39daa29ea
 ```
 
-adds Generic Netlink support for `tcp_metrics`, including:
+was authored on **2012-09-04** and adds Generic Netlink support for `tcp_metrics`, including:
 
 ```text
 get one entry
@@ -107,7 +107,40 @@ ip tcp_metrics
 show / flush / delete / manipulate selected metrics
 ```
 
-## 5. `ip tcp_metrics` exposes destination memory
+## 5. The first tagged iproute2 release carrying `ip tcp_metrics` is v3.7.0
+
+The userspace side can now be bounded more precisely than “2012-era iproute2”.
+
+Upstream iproute2 commit:
+
+```text
+ea63a69b6d2f230af5471ddfa7b05b369fc49816
+iproute2: add support for tcp_metrics
+```
+
+was authored by **Julian Anastasov** on **2012-10-03** and committed by **Stephen Hemminger** on **2012-10-08**. It adds `ip/tcp_metrics.c`, wires `tcp_metrics` and `tcpmetrics` into `ip`, and implements `show`, `flush`, and `delete` over the kernel Generic Netlink family.
+
+The immediately preceding iproute2 tag **v3.6.0** was tagged on **2012-10-01**, before that userspace commit existed in the upstream history. An exact contents lookup for `ip/tcp_metrics.c` at `v3.6.0` returns no file.
+
+The next tag **v3.7.0** was tagged on **2012-12-11** and contains `ip/tcp_metrics.c`. Stephen Hemminger's contemporary v3.7.0 release announcement is unusually explicit: it says the release “includes support for tcp_metrics” and lists Anastasov's `iproute2: add support for tcp_metrics` change in the release changelog.
+
+Therefore the defensible release boundary is:
+
+```text
+iproute2 v3.6.0 (2012-10-01)
+        tcp_metrics command absent
+            ↓
+ea63a69... merged upstream (2012-10-08)
+            ↓
+iproute2 v3.7.0 (2012-12-11)
+        first tagged release carrying ip tcp_metrics
+```
+
+This closes the **first tagged-release/source-snapshot** question. It does not establish the first public availability of a development snapshot between tags, the first Linux distribution package carrying the command, or the first production use.
+
+The source header in `tcp_metrics.c` says “August 2012”. That is useful drafting/provenance evidence, but it must not be substituted for the upstream commit date or the release date.
+
+## 6. `ip tcp_metrics` exposes destination memory
 
 The iproute2 command displays cached metrics keyed by destination.
 
@@ -137,7 +170,7 @@ ip tcp_metrics
 
 A historian should not merge those two observability surfaces.
 
-## 6. Cached experience can become stale or harmful
+## 7. Cached experience can become stale or harmful
 
 Caching is a bet that the next connection sees something like the previous path.
 
@@ -151,7 +184,7 @@ Modern networks weaken that assumption:
 
 This becomes explicit in 2019.
 
-## 7. 2019: ssthresh caching is disabled by default
+## 8. 2019: ssthresh caching is disabled by default
 
 Commit:
 
@@ -179,7 +212,7 @@ one historically cached field becomes opt-in/disabled by default
 
 The cache is not simply removed.
 
-## 8. Architecture and policy change independently
+## 9. Architecture and policy change independently
 
 Two very different historical changes occur:
 
@@ -203,7 +236,7 @@ Do not conflate them.
 
 A subsystem can survive while individual fields change policy.
 
-## 9. Relation to route-cache history
+## 10. Relation to route-cache history
 
 The 2012 split happens in the broader era when Linux routing lookup architecture is moving away from older per-destination route-cache assumptions.
 
@@ -211,7 +244,7 @@ This makes TCP metrics an especially useful artifact: transport state that once 
 
 A future excavation should connect this directly to the route-cache removal/FIB lookup history rather than asserting causal details without the relevant commits.
 
-## 10. Root-hunting graph
+## 11. Root-hunting graph
 
 ```text
 TCP learns RTT/cwnd/ssthresh/path state
@@ -223,6 +256,10 @@ TCP-specific local metrics cache
           ↓
 Generic Netlink tcp_metrics interface
           ↓
+iproute2 commit ea63a69... (2012-10-08)
+          ↓ release membership, not causal lineage
+iproute2 v3.7.0 (2012-12-11)
+          ↓
 ip tcp_metrics
 
 policy branch:
@@ -231,7 +268,7 @@ cached ssthresh
 not saved by default
 ```
 
-## 11. Negative claims
+## 12. Negative claims
 
 Do not state:
 
@@ -239,7 +276,10 @@ Do not state:
 - TCP metrics are the routing table;
 - the 2012 change removed all destination memory;
 - the 2019 ssthresh change disabled the entire metrics cache;
-- cached RTT is necessarily the current path RTT.
+- cached RTT is necessarily the current path RTT;
+- the August 2012 source-header date is the iproute2 release date;
+- the v3.7.0 release boundary proves the first development snapshot, distribution package, operator deployment, or production use;
+- because the kernel Generic Netlink interface predates the userspace merge/release, that chronology alone proves a causal or implementation-lineage edge.
 
 It is remembered, destination-keyed historical state.
 
@@ -248,8 +288,11 @@ It is remembered, destination-keyed historical state.
 - historical/current `tcp(7)` descriptions of `tcp_no_metrics_save`.
 - Linux commit `51c5d0c4b169bf762f09e0d5b283a7f0b2a45739` — dynamic metrics move to local cache.
 - Linux commit `81166dd6fa8eb780b2132d32fbc77eb6ac04e44e` — timestamps move from inetpeer into metrics cache.
-- Linux commit `d23ff701643a4a725e2c7a8ba2d567d39daa29ea` — Generic Netlink interface.
+- Linux commit [`d23ff701643a4a725e2c7a8ba2d567d39daa29ea`](https://github.com/torvalds/linux/commit/d23ff701643a4a725e2c7a8ba2d567d39daa29ea) — Generic Netlink interface, authored 2012-09-04.
+- iproute2 commit [`ea63a69b6d2f230af5471ddfa7b05b369fc49816`](https://github.com/iproute2/iproute2/commit/ea63a69b6d2f230af5471ddfa7b05b369fc49816) — initial `ip tcp_metrics` userspace support; author date 2012-10-03, commit date 2012-10-08.
+- iproute2 annotated tags [`v3.6.0`](https://github.com/iproute2/iproute2/releases/tag/v3.6.0) (2012-10-01) and [`v3.7.0`](https://github.com/iproute2/iproute2/releases/tag/v3.7.0) (2012-12-11), plus the v3.7.0 `ip/tcp_metrics.c` source snapshot.
+- Stephen Hemminger, `[ANNOUNCE] iproute2 3.7.0`, 2012-12-11 — contemporary release statement that v3.7.0 includes `tcp_metrics` support and lists Anastasov's change.
 - `ip-tcp_metrics(8)`.
 - Linux commit `65e6d90168f3593df0ae598502bcbf20d78ff0fb` — disable ssthresh metrics saving by default.
 
-Research and initial drafting: **GPT-5.6 Sol (OpenAI), August 2026**.
+Research and initial drafting: **GPT-5.6 Sol (OpenAI), August–September 2026**.
