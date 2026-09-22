@@ -51,14 +51,14 @@ Status vocabulary:
 - [x] CUBIC RFC standardization versus Linux code history: implementation/deployment clock is explicitly separated from RFC 8312 Experimental and RFC 9438 Standards Track document history.
 - [~] BBR generations and pacing observability. **Completed:** 2016 mainline BBR merge/model, current mainline source, Google BBRv3 branch identity, pacing/delivery-rate observability linkage and explicit negative claim that current mainline is not simply “BBRv3”. **Still missing:** exact BBRv2→v3 branch/commit chronology and deployment timeline.
 - [~] `tcp_info` struct field/version genealogy by Linux release. **Completed:** Linux 2.4-era provenance bound, v2.6.12 early struct snapshot, 2014 pacing fields, 2016 delivery-rate/app-limited fields. **Still missing:** exact pre-git introduction patch and exhaustive every-field release matrix.
-- [~] TCP metrics cache and `ip tcp_metrics` history. **Completed:** pre-2012 route-metrics role → 2012 dedicated cache, timestamp migration, Generic Netlink exposure, userspace administration semantics and 2019 ssthresh-cache policy change. **Still missing:** earliest route-cache implementation ancestry and exact first iproute2 release carrying `tcp_metrics`.
+- [x] TCP metrics cache and `ip tcp_metrics` history. **Recovered:** the exact v2.3.14→v2.3.15 source boundary for dynamic TCP-learned per-destination route/cache writeback and reuse (`tcp_update_metrics()` + `tcp_init_metrics()`), while preserving the negative boundary that v2.3.14 already had FIB-seeded route RTT; the 2012 dedicated cache and timestamp migration; Generic Netlink administration; iproute2 v3.7.0 as the first tagged release carrying `ip tcp_metrics`; and the 2019 ssthresh-cache policy change. The 2012 commit explicitly describes the storage migration out of route metrics, but this does not establish causality with IPv4 route-cache removal.
 - [ ] packet captures paired with `ss -ti` output and RFC-variable concordance.
 - [ ] recover Tahoe and Reno BSD source snapshots and build a loss-recovery code diff.
 - [ ] trace NewReno implementation adoption in BSD/Linux before and after the RFC lineage.
 - [ ] map Linux SACK scoreboard/recovery generations through RFC 3517, RFC 6675, PRR and RACK.
 - [ ] reconstruct BBRv1→v2→v3 branch history from commit/patch-series evidence and preserve mainline-versus-Google-branch state per date.
 - [ ] machine-generate a complete `struct tcp_info` field-addition table from kernel history, including field, units, commit, release and `ss` rendering.
-- [ ] trace TCP destination metrics before the 2012 dedicated cache split and recover the first `ip tcp_metrics` userspace release.
+- [x] trace TCP destination metrics before the 2012 dedicated cache split and recover the first `ip tcp_metrics` userspace release. **Closed:** Linux 2.3.15 (released 1999-08-25) is the exact recovered adjacent-version boundary introducing the dynamic per-dst TCP feedback loop; iproute2 v3.7.0 (2012-12-11) is the first tagged userspace release carrying the command. Neither boundary is rewritten as first private prototype or first production deployment.
 
 ## Neighbour/address-resolution archaeology
 
@@ -127,4 +127,4 @@ Status vocabulary:
 
 When a new excavation is proposed, add it here immediately. A chat message is not the task database. The repository is.
 
-Research and initial drafting: **GPT-5.6 Sol (OpenAI), August 2026**.
+Research and initial drafting: **GPT-5.6 Sol (OpenAI), August–September 2026**.
