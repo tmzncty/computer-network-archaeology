@@ -50,6 +50,30 @@ https://www.classiccmp.org/pipermail/cctalk/2017-May/034745.html
 
 This proves that the **101C variant** must be treated separately from the generic “Bell 101” label. A 1963 101C manual is not proof that every 101-family feature existed in 1958.
 
+### March 1963 Bell System Data Set 103A marketing brochure
+
+A contemporary Bell System marketing brochure is now available as a surviving scan:
+
+**Data Set 103-A**, print code **3163 358** (March 1963).
+
+TCI Library scan:
+https://www.telephonecollectors.info/index.php/browse/document-repository/catalogs-manuals/western-electric-bell-system/marketing-documents-by-date/14723-1963-data-set-103a-dataphone/file
+
+This is stronger evidence for public product/service availability than a later retrospective timeline. The brochure advertises the 103-A for ordinary Bell System customers, describing transmission over regular telephone lines, Private Line service and WATS; DATA-PHONE service could use local or long-distance calls at normal telephone rates. It also advertises automatic answering and use with an associated Automatic Calling Unit.
+
+Most importantly, this March 1963 brochure says the product transmits and receives at **up to 200 bits per second**. That does **not** match the later 103A technical material that states up to 300 baud / 300 bit/s in DATA-PHONE service. The discrepancy must be preserved rather than normalized away. Plausible explanations include an early marketed operating limit, a brochure simplification, or a revision/configuration change, but none is proven by the brochure alone.
+
+What this source proves:
+- a Bell System product explicitly named **Data Set 103-A** was being marketed by March 1963;
+- Bell marketed it for DATA-PHONE, Private Line and WATS contexts;
+- the surviving brochure states a maximum of 200 bit/s.
+
+What it does **not** prove:
+- that March 1963 was the first announcement, first installation or first sale;
+- that all 103A revisions were limited to 200 bit/s;
+- when or why the later 300 bit/s rating appeared;
+- that a generic “Bell 103” family introduction date equals this brochure date.
+
 ### Bell System Practices: Data Set 103A Type
 
 A scan is indexed as:
@@ -59,7 +83,12 @@ A scan is indexed as:
 Bitsavers location:
 https://bitsavers.org/communications/westernElectric/modems/591-014-100_Data_Set_103A_Identification_and_Operation_Jan67.pdf
 
-The current file naming/copyright context points to **January 1967**, while extracted/OCR text exposed by web indexing reads “Issue 5, January 1961”. Those signals conflict. This may simply be an OCR error in a degraded scan, but until the page image is inspected manually the repository should not promote the OCR year to fact.
+The scan's visible copyright line is **1967**, while machine-readable text exposed by some indexes renders the issue line as “Issue 5, January 1961”. Those signals conflict. Until the original page image and revision history are reconciled, neither OCR-derived “1961” nor a filename-derived edition date should be used as the first-availability date.
+
+A separate February 1967 Bell System *Data Set 103A — Interface Specification* states up to **300 baud (300 bit/s maximum)** in DATA-PHONE service and 150 baud in TWX-CE service:
+https://bitsavers.org/communications/westernElectric/modems/103A_Interface_Specification_Feb67.pdf
+
+This makes the March 1963 brochure's **200 bit/s** rating a concrete revision-history question rather than something that should be silently corrected to the familiar later 300 bit/s figure.
 
 The document is nevertheless rich hardware evidence: it describes 103A-type simultaneous low-speed serial transmit/receive service, DATA-PHONE/TWX use, two FSK channels, business-machine interface leads, line-control circuitry, manual/automatic answer and physical connectors.
 
@@ -138,7 +167,9 @@ It is safe at present to say:
 - Bell Labs modem/data-set work grew from mid-century digital communication and SAGE-era requirements;
 - **1958 is a well-attested Bell 101-family historical milestone**;
 - 101C and 103A have surviving Bell System Practices that expose much more detailed hardware/service history;
-- the exact public-product chronology and revision genealogy still require primary-document resolution.
+- a Bell System marketing artifact now proves that **Data Set 103-A was publicly marketed by March 1963**, but does not establish its first announcement or first deployment;
+- the March 1963 brochure's **200 bit/s** ceiling conflicts with later 300 bit/s technical documentation and therefore exposes a still-unresolved product/revision boundary;
+- the exact first-announcement chronology and revision genealogy still require additional primary-document resolution.
 
 It is **not** yet safe for this repository to pretend that one neat sentence has resolved every Bell 101/103 date.
 
