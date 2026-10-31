@@ -4,11 +4,11 @@
 
 The ROADMAP still leaves the early ARPANET's **50 kbit/s leased circuits** and the **modems/data sets used on early ARPANET lines** uncovered. A recurring retrospective ambiguity is to treat “50 kbps” as though it implied the later 56 kbps digital DDS/DS0 world, or as though it were an ordinary voice-band modem rate.
 
-Contemporary sources support a narrower reconstruction: BBN described the initial ARPANET as using 50-kilobit **common-carrier circuits**, while Bell System/Western Electric documentation shows an already-available 303-type wideband data-station system whose 50-kbit/s mode occupied a **group** facility with the bandwidth of twelve voice circuits. Bell System engineering literature explicitly describes these wideband facilities as adaptations of analog carrier systems.
+Contemporary sources establish that BBN built the initial subnet around 50-kilobit **common-carrier circuits**. Bell System/Western Electric documentation shows an already-available 303-type wideband data-station system whose 50-kbit/s mode occupied a **group** facility with the bandwidth of twelve voice circuits. A later participant oral history from Robert Kahn adds a missing identity statement: during the original ARPANET design, use of **Bell 303 modems was mandated**. A 1978 U.S. Department of Commerce report then documents Bell 303 equipment in an operational ARPANET/TIP installation.
 
-This establishes the telecommunications technology context for the ARPANET line rate. It does **not**, by itself, identify the exact 303 model/revision installed at each 1969 ARPANET endpoint.
+Taken together, these sources move the Bell 303 from a merely rate-matched carrier-family candidate to directly attested ARPANET equipment. They still do **not** identify the exact 303 hardware variant/revision at each of the four 1969 endpoints.
 
-## Primary and contemporary sources
+## Primary, contemporary, and participant sources
 
 ### 1. BBN: the network used 50-kilobit common-carrier circuits
 
@@ -51,9 +51,35 @@ A companion 1966 engineering paper on transmission facilities likewise describes
 
 This evidence is important because it prevents a chronological category error: a 50-kbit/s ARPANET circuit in 1969 should not automatically be described as a later 56-kbit/s DDS/DS0 circuit.
 
+### 4. Robert Kahn: Bell 303 use was mandated in the original ARPANET design
+
+Robert E. Kahn, oral history interviewed by Vinton Cerf, Computer History Museum, recorded 30 September 2006, CHM reference X3699.2007, p. 24.
+
+Locator:
+
+- https://archive.computerhistory.org/resources/access/text/2012/04/102657973-05-01-acc.pdf
+
+Kahn recalls that while the original ARPANET was being designed, **“it had been mandated that we use Bell 303 modems”**, which he identifies as 50-kilobit Bell System equipment. He then describes visiting Bell Labs to understand the 303 and encountering a working Bell 304 prototype that could provide substantially more capacity over the same channel bandwidth; according to Kahn, Bell would not release the 304 because it was not a market product.
+
+This is retrospective oral history, recorded 37 years after the first ARPANET links, so it is not equivalent to a 1969 procurement order or installation log. But it is direct participant testimony from a member of the BBN IMP team and explicitly identifies the modem family selected for the original design. It therefore materially strengthens the equipment identity beyond the rate/service match established by the 1966 and 1970 documents.
+
+The 304 episode is useful negative evidence as well: it shows that a technically compatible or superior Bell Labs prototype cannot be promoted into an ARPANET deployment claim merely because it existed. Kahn's account says precisely the opposite—the 304 was not made available for the network.
+
+### 5. Department of Commerce: operational ARPANET/TIP use of Bell 303 is directly documented by 1977–1978
+
+Judd A. Payne, *ARPANET Host to Host Access and Disengagement Measurements*, NTIA Report 78-3, U.S. Department of Commerce, May 1978, especially section 3 and figure 4, pp. 11–13.
+
+Locator:
+
+- https://www.govinfo.gov/content/pkg/GOVPUB-C60-PURL-gpo5575/pdf/GOVPUB-C60-PURL-gpo5575.pdf
+
+The report describes the NTIA/ITS PDP-11 host's Very Distant Host (VDH) connection to the Department of Commerce Boulder TIP. Figure 4 explicitly labels Bell 303 modems on the TIP and host sides and also labels Bell 303 equipment on the TIP's 50-kbit inter-node links. The text states that each VDH special interface plugs directly into a Bell 303 modem, with the local modem pair connected over shielded twisted pairs for almost 1,800 feet inside the Radio Building.
+
+This is direct operational evidence that Bell 303 hardware was integrated with ARPANET/TIP interfaces in the 1970s. It does not identify the modem at UCLA, SRI, UCSB, or Utah in 1969, and the local VDH use should not be conflated with the common-carrier inter-IMP service simply because both use 303 equipment.
+
 ## Reconstructed relation
 
-The evidence supports the following bounded technical relation:
+The evidence now supports a stronger but still bounded reconstruction:
 
 ```text
 Bell System FDM carrier hierarchy
@@ -63,39 +89,51 @@ Bell System FDM carrier hierarchy
 303-type wideband data service
         | 50 kbit/s synchronous group mode
         v
-available common-carrier technology matching
-ARPANET's documented 50-kbit/s circuit requirement
+Bell 303 selected/mandated for original ARPANET design
+        |
+        | BBN: initial subnet uses 50-kbit/s common-carrier circuits
+        v
+ARPANET 50-kbit/s modem/circuit interface
+        |
+        | later direct operational documentation
+        v
+Bell 303 present in ARPANET/TIP installations by 1977–1978
 ```
 
-The last arrow is deliberately **not** encoded as “ARPANET used model 303-X” without an installation, tariff, BBN procurement, or site record naming the equipment. What is established is a technology/service match and a plausible carrier-family context, not a site-by-site hardware identity.
+This is no longer only a chronology-and-rate inference. Kahn explicitly names the Bell 303 in the original design, while the Department of Commerce report directly shows Bell 303 equipment in an operational ARPANET/TIP installation. What remains unresolved is **site-specific 1969 hardware identity and revision**.
 
 ## Lineage / relation assessment
 
 - `303-type 50 kbps mode uses Bell group facility` — **high certainty**; explicit in the August 1966 Western Electric manual.
 - `Bell group facility corresponds to bandwidth of 12 voice circuits` — **high certainty**; explicit in the same manual and contemporary Bell engineering literature.
 - `early ARPANET inter-IMP network uses 50-kilobit common-carrier circuits` — **high certainty**; explicit in the 1970 BBN paper describing the implemented subnet.
-- `303-type wideband service is the carrier technology family underlying the first ARPANET 50 kbps circuits` — **medium certainty as a lineage/context relation**. Rate, service class, date, and Bell engineering context align, but the sources assembled here do not name the installed endpoint model at UCLA/SRI/UCSB/Utah.
+- `original ARPANET design specifies/mandates Bell 303 modems` — **medium-high certainty**; explicit direct-participant testimony from Robert Kahn, but retrospective rather than a surviving 1969 order/specification.
+- `Bell 303 implemented-by/attached-to ARPANET TIP/VDH interfaces at the documented Department of Commerce Boulder installation` — **high certainty**; explicit in the 1978 federal report and its system diagram.
+- `Bell 303 is the modem family used by the original ARPANET rather than merely a compatible 50-kbps technology family` — **medium-high certainty**, supported by Kahn's direct testimony plus the contemporary rate/service evidence and later operational documentation.
+- `specific Bell 303 revision installed at UCLA/SRI/UCSB/Utah in 1969` — **unresolved**.
 - `ARPANET 50 kbps circuits are 56 kbps DDS/DS0 circuits` — **unsupported and should not be asserted** from these sources.
 
-If the repository later gains typed relations for service realization, a safe candidate is a contextual edge such as `50-kbps-common-carrier-service compatible-with 303-group-mode`; a stronger `implemented-by` edge should wait for procurement or installation evidence.
+If the repository later gains typed relations for service realization, `original-ARPANET-design specifies Bell-303` is now defensible with a retrospective-source qualifier. A stronger site-specific `UCLA-1969-link implemented-by Bell-303-[variant]` edge should still wait for procurement, installation, or site records.
 
 ## What this evidence explicitly does not prove
 
 This evidence does **not** prove:
 
-- the exact Western Electric/Bell data-station model or hardware revision installed at each first-four-node ARPANET site;
+- the exact Western Electric/Bell 303 subtype or hardware revision installed at each first-four-node ARPANET site;
 - that every 50-kbit/s ARPANET link used identical physical plant end to end;
+- the tariff, monthly price, circuit order number, or first-service date for UCLA–SRI or the other 1969 links;
 - that the circuits were ordinary 3-kHz voice-band telephone lines;
 - that they were later 56-kbit/s DDS circuits;
 - that “12 voice circuits” means twelve independent voice calls were digitally bonded in the later sense; the 1966 documentation describes an FDM group-band allocation;
 - that the 303 system was designed for ARPANET or caused ARPANET's packet-switching architecture;
-- that a matching rate and service class alone establish a procurement lineage;
-- the tariff, monthly price, circuit order number, or first-service date for UCLA–SRI or the other 1969 links.
+- that Kahn's recollection alone identifies who imposed the Bell 303 mandate, the procurement mechanism, or the exact equipment delivered to each 1969 site;
+- that the Bell 304 was deployed on ARPANET; Kahn's account instead says Bell would not make it available;
+- that the Department of Commerce Boulder configuration of 1977–1978 reproduces the first-four-node 1969 installation unchanged.
 
 ## Repository consequence and next evidence target
 
-This advances two open ROADMAP items: **50 kbit/s leased circuits** and **modems/data sets used on early ARPANET lines**. It resolves the basic physical-service category: the documented 50-kbit/s requirement fits Bell's pre-existing wideband group-carrier data service, which used a 12-voice-channel-width FDM group and was not simply the later 56-kbit/s DDS service.
+This materially advances two open ROADMAP items: **50 kbit/s leased circuits** and **modems/data sets used on early ARPANET lines**. The previous evidence established a strong technology/service match; Kahn's participant testimony now directly identifies Bell 303 as the modem family mandated for the original design, and the Department of Commerce report supplies independent operational evidence of Bell 303 integration with ARPANET/TIP hardware.
 
-The next high-value evidence is narrower: BBN purchase/procurement records, ARPA circuit orders, Bell installation records, or first-four-node site documentation that names the exact data station/modem at UCLA, SRI, UCSB, or Utah. Only that evidence should promote the medium-certainty carrier-family match to a high-certainty site-specific `implemented-by` relation.
+The next evidence target is narrower than before: locate a **1968–1969 BBN/ARPA specification, purchase order, Bell circuit order, installation drawing, acceptance record, or UCLA/SRI/UCSB/Utah site document** that names the Bell 303 subtype or data-station assembly. That evidence would convert the current family-level original-design identification into a site-specific, revision-specific deployment record.
 
-Research and drafting: **OpenAI, 27 October 2026**.
+Research and drafting: **OpenAI, 31 October 2026**.
